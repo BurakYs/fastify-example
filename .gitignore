@@ -1,0 +1,8 @@
+/node_modules
+.env
+.vscode
+package-lock.json
+pnpm-lock.yaml
+.idea
+/dist
+/logs
