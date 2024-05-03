@@ -1,4 +1,4 @@
-export const RESPONSES: Record<string, string> = {
+export const RESPONSES = {
     INVALID_PARAMETERS: 'Invalid Parameters',
     PAGE_NOT_FOUND: 'Not Found',
     UNAUTHORIZED: 'Unauthorized',

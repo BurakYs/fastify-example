@@ -10,16 +10,16 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^3.0.0",
     "dotenv": "^16.3.1",
     "fastify": "^4.26.1",
     "fastify-type-provider-zod": "^1.1.9",
     "fastify-zod": "^1.4.0",
-    "@fastify/swagger": "^8.14.0",
-    "@fastify/swagger-ui": "^3.0.0",
-    "zod": "^3.22.4",
     "glob": "^10.3.12",
     "module-alias": "^2.2.3",
-    "tslog": "^4.9.2"
+    "tslog": "^4.9.2",
+    "zod": "^3.22.4"
   },
   "license": "ISC",
   "devDependencies": {

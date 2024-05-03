@@ -1,6 +1,6 @@
 import { FastifyRequest } from 'fastify';
 
-export default function ip(request: FastifyRequest): string {
+export default function ip(request: FastifyRequest) {
     const headersToCheck = [
         'x-client-ip',
         'x-forwarded-for',

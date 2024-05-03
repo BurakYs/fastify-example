@@ -1,5 +1,6 @@
 import { FastifyRequest } from 'fastify';
 
-export interface Request extends FastifyRequest {
-	clientIp: string;
+export default interface Request extends FastifyRequest {
+    clientIp: string;
+    // eslint-disable-next-line semi
 }

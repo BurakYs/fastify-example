@@ -1,9 +1,9 @@
 import { SwaggerOptions } from '@fastify/swagger';
 import { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
-import appConfig from '@/config/app';
 import { jsonSchemaTransform } from 'fastify-type-provider-zod';
+import appConfig from '@/config/app';
 
-const swaggerConfig: SwaggerOptions = {
+export const swaggerConfig: SwaggerOptions = {
     openapi: {
         openapi: '3.0.0',
         info: {
@@ -20,7 +20,7 @@ const swaggerConfig: SwaggerOptions = {
     transform: jsonSchemaTransform
 };
 
-const swaggerUIConfig: FastifySwaggerUiOptions = {
+export const swaggerUIConfig: FastifySwaggerUiOptions = {
     routePrefix: '/docs',
     uiConfig: {
         docExpansion: 'list',
@@ -28,5 +28,3 @@ const swaggerUIConfig: FastifySwaggerUiOptions = {
         layout: 'BaseLayout'
     }
 };
-
-export { swaggerConfig, swaggerUIConfig };

@@ -25,11 +25,11 @@ export default class Server {
             .setValidatorCompiler(validatorCompiler)
             .setSerializerCompiler(serializerCompiler);
 
-        this.server.decorateReply('sendError', function (message: any, status: number, otherProperties?: any) {
+        this.server.decorateReply('sendError', function (message: unknown, status: number, otherProperties?: Record<string, any>) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
         });
 
-        this.server.decorateReply('sendSuccess', function (message: any, status: number, otherProperties?: any) {
+        this.server.decorateReply('sendSuccess', function (message: unknown, status: number, otherProperties?: Record<string, any>) {
             return this.code(status).send({ success: true, status, data: message, ...otherProperties });
         });
 

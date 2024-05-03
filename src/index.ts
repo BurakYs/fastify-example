@@ -13,5 +13,5 @@ global.logger = new Logger();
 const server = new Server();
 server.create();
 
-process.on('unhandledRejection', (error: any) => global.logger.error(error));
-process.on('uncaughtException', (error: any) => global.logger.error(error));
+process.on('unhandledRejection', (error: unknown) => global.logger.error(error));
+process.on('uncaughtException', (error: unknown) => global.logger.error(error));
