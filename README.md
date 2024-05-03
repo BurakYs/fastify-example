@@ -3,6 +3,7 @@
 This project is a simple example of how to create a REST API using Fastify, TypeScript, Swagger and Zod.
 
 ## ❓ How to run
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/BurakYs/fastify-example.git
@@ -24,7 +25,7 @@ This project is a simple example of how to create a REST API using Fastify, Type
     ```
 
 5. Edit the configuration files under the `src/config` directory according to your needs.
-   - `app.ts` - Edit production URL.
+    - `app.ts` - Edit production URL.
 
 6. Run the project:
     ```bash
@@ -32,4 +33,5 @@ This project is a simple example of how to create a REST API using Fastify, Type
     ```
 
 ## 📜 License
+
 This project is licensed under the MIT License. See [LICENSE](./LICENSE) for more information.

@@ -5,7 +5,7 @@ const isDevelopment = ['development', 'dev', 'test'].includes(NODE_ENV.toLowerCa
 const AppConfig = {
     app: {
         url: isDevelopment ? `http://localhost:${PORT}` : 'https://api.example.com',
-        isDevelopment,
+        isDevelopment
     }
 };
 

@@ -17,10 +17,10 @@ export default class CustomLogger<LogObj> extends Logger<LogObj> {
     }
 
     /**
-	 * Logs an HTTP request.
-	 * @param args - Multiple log attributes that should be logged.
-	 * @return LogObject with meta property, when log level is >= minLevel
-	 */
+     * Logs an HTTP request.
+     * @param args - Multiple log attributes that should be logged.
+     * @return LogObject with meta property, when log level is >= minLevel
+     */
     public logRequest(...args: unknown[]): LogObj & ILogObjMeta | undefined {
         return super.log(6, 'REQUEST', ...args);
     }
