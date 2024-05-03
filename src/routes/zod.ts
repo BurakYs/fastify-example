@@ -1,18 +1,18 @@
-import { Request, Response } from '@/interfaces';
 import { FastifyInstance } from 'fastify';
-import { z } from 'zod';
+import { Request, Response } from '@/interfaces';
+import { QuerySchema, BodySchema, ParamsSchema } from '@/schemas/zod';
+import { QueryType, BodyType, ParamsType } from '@/schemas/zod';
 
 export default (fastify: FastifyInstance, opts: any, done: any) => {
     fastify.route({
         method: 'GET',
         url: '/query',
         schema: {
-            querystring: z.object({
-                hello: z.string().min(3).max(10)
-            })
+            querystring: QuerySchema
         },
         handler: async (request: Request, response: Response) => {
-            response.sendSuccess(request.query, 200);
+            const query = request.query as QueryType;
+            response.sendSuccess(query, 200);
             return;
         }
     });
@@ -21,12 +21,11 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
         method: 'POST',
         url: '/body',
         schema: {
-            body: z.object({
-                hello: z.string().min(3).max(10)
-            })
+            body: BodySchema
         },
         handler: async (request: Request, response: Response) => {
-            response.sendSuccess(request.body, 200);
+            const body = request.body as BodyType;
+            response.sendSuccess(body, 200);
             return;
         }
     });
@@ -35,12 +34,11 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
         method: 'GET',
         url: '/params/:id',
         schema: {
-            params: z.object({
-                id: z.string().uuid()
-            })
+            params: ParamsSchema
         },
         handler: async (request: Request, response: Response) => {
-            response.sendSuccess(request.params, 200);
+            const params = request.params as ParamsType;
+            response.sendSuccess(params, 200);
             return;
         }
     });

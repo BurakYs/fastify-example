@@ -1,5 +1,5 @@
-import { Request, Response } from '@/interfaces';
 import { FastifyInstance } from 'fastify';
+import { Request, Response } from '@/interfaces';
 import fs from 'fs';
 
 export default (fastify: FastifyInstance, opts: any, done: any) => {
