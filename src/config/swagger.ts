@@ -15,6 +15,9 @@ export const swaggerConfig: SwaggerOptions = {
             {
                 url: appConfig.app.url
             }
+        ],
+        tags: [
+            { name: 'Zod', description: 'Zod example endpoints' }
         ]
     },
     transform: jsonSchemaTransform

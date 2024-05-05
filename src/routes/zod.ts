@@ -8,6 +8,8 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
         method: 'GET',
         url: '/query',
         schema: {
+            summary: 'Test query schema validation',
+            tags: ['Zod'],
             querystring: QuerySchema
         },
         handler: async (request: Request, response: Response) => {
@@ -21,6 +23,8 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
         method: 'POST',
         url: '/body',
         schema: {
+            summary: 'Test body schema validation',
+            tags: ['Zod'],
             body: BodySchema
         },
         handler: async (request: Request, response: Response) => {
@@ -34,6 +38,8 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
         method: 'GET',
         url: '/params/:id',
         schema: {
+            summary: 'Test params schema validation',
+            tags: ['Zod'],
             params: ParamsSchema
         },
         handler: async (request: Request, response: Response) => {
