@@ -33,7 +33,7 @@ export const swaggerUIConfig: FastifySwaggerUiOptions = {
     },
     theme: {
         title: 'Fastify API Documentation',
-        css: [{ filename: 'swagger.css', content: fs.readFileSync('./public/swagger.css', 'utf-8') }],
+        css: [{ filename: 'swagger.css', content: fs.readFileSync('./public/swagger.min.css', 'utf-8') }],
         favicon: [{ filename: 'favicon.ico', rel: 'icon', type: 'image/x-icon', sizes: '16x16', content: fs.readFileSync('./public/favicon.ico') }]
     }
 };
