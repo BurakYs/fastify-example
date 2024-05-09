@@ -13,6 +13,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4.1.5
       - name: Setup node.js
         uses: actions/setup-node@v4.0.2
         with:
