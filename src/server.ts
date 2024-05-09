@@ -11,10 +11,11 @@ import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import * as middlewares from '@/middlewares';
 
 export default class Server {
-    private server;
+    public server;
 
     constructor() {
         this.server = Fastify();
+        this.create();
     }
 
     public create() {
@@ -79,7 +80,7 @@ export default class Server {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
-        const files = await glob(path.resolve(__dirname, 'routes/**/*.js').replace(/\\/g, '/'));
+        const files = await glob(path.resolve(__dirname, 'routes/**/*.{js,ts}').replace(/\\/g, '/'));
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));

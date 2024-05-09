@@ -1,5 +1,6 @@
 import { ISettingsParam } from 'tslog';
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const loggerSettings: ISettingsParam<any> = {
     type: 'pretty',
     prettyLogTemplate: '{{dd}}-{{mm}}-{{yyyy}} {{hh}}:{{mm}}:{{ss}} {{logLevelName}} {{filePathWithLine}}{{name}}  ',

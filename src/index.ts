@@ -11,7 +11,8 @@ if (process.argv.includes('--production')) process.env.NODE_ENV = 'production';
 global.logger = new Logger();
 
 const server = new Server();
-server.create();
 
 process.on('unhandledRejection', (error: unknown) => global.logger.error(error));
 process.on('uncaughtException', (error: unknown) => global.logger.error(error));
+
+export default server;

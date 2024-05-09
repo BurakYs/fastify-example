@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "node .",
     "start": "node . --production",
-    "build": "rm -rf dist && git pull && tsc",
-    "lint": "eslint ."
+    "build": "tsc",
+    "test": "tap tests/**/*.test.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@fastify/swagger": "^8.14.0",
@@ -28,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "eslint": "^8.57.0",
+    "tap": "^18.7.3",
     "tslib": "^2.6.2"
   },
   "_moduleAliases": {

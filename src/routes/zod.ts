@@ -3,7 +3,7 @@ import { Request, Response } from '@/interfaces';
 import { QuerySchema, BodySchema, ParamsSchema } from '@/schemas/zod';
 import type { QueryType, BodyType, ParamsType } from '@/schemas/zod';
 
-export default (fastify: FastifyInstance, opts: any, done: any) => {
+export default async (fastify: FastifyInstance) => {
     fastify.route({
         method: 'GET',
         url: '/query',
@@ -48,6 +48,4 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
             return;
         }
     });
-
-    done();
 };
