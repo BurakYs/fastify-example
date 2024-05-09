@@ -18,18 +18,18 @@ export default class Server {
     }
 
     public create() {
-        const ipAddressesToIgnore = process.env.IGNORED_IPS?.split(',') || [];
+        const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
 
         this.server
             .withTypeProvider<ZodTypeProvider>()
             .setValidatorCompiler(validatorCompiler)
             .setSerializerCompiler(serializerCompiler);
 
-        this.server.decorateReply('sendError', function (message: unknown, status: number, otherProperties?: Record<string, any>) {
+        this.server.decorateReply('sendError', function (message, status, otherProperties) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
         });
 
-        this.server.decorateReply('sendSuccess', function (message: unknown, status: number, otherProperties?: Record<string, any>) {
+        this.server.decorateReply('sendSuccess', function (message, status, otherProperties) {
             return this.code(status).send({ success: true, status, data: message, ...otherProperties });
         });
 
@@ -67,7 +67,7 @@ export default class Server {
             const port = parseInt(process.env.PORT || '3000');
 
             this.server.listen({ port, host: '0.0.0.0' }).then(() => {
-                global.logger.info(`Server listening on port ${port}`);
+                global.logger.info(`Server listening on http://localhost:${port}`);
             }).catch(err => {
                 global.logger.error(err);
                 process.exit(1);

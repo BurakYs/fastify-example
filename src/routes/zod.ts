@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
 import { QuerySchema, BodySchema, ParamsSchema } from '@/schemas/zod';
-import { QueryType, BodyType, ParamsType } from '@/schemas/zod';
+import type { QueryType, BodyType, ParamsType } from '@/schemas/zod';
 
 export default (fastify: FastifyInstance, opts: any, done: any) => {
     fastify.route({

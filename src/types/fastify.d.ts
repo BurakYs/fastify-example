@@ -1,4 +1,4 @@
-import { FastifyReply as FastifyRes } from 'fastify';
+import 'fastify';
 
 declare module 'fastify' {
     interface FastifyRequest {
@@ -6,7 +6,7 @@ declare module 'fastify' {
     }
 
     interface FastifyReply {
-        sendSuccess: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyRes;
-        sendError: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyRes;
+        sendSuccess: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyReply;
+        sendError: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyReply;
     }
 }
