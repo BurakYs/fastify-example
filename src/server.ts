@@ -90,4 +90,4 @@ export default class Server {
             this.server.register(route.default, { prefix });
         }
     }
-}
+} 
