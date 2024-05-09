@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
 import fs from 'fs';
 
-export default (fastify: FastifyInstance, opts: any, done: any) => {
+export default async (fastify: FastifyInstance) => {
     fastify.route({
         method: 'GET',
         url: '/',
@@ -26,6 +26,4 @@ export default (fastify: FastifyInstance, opts: any, done: any) => {
             return;
         }
     });
-
-    done();
 };

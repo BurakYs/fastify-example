@@ -6,7 +6,7 @@ declare module 'fastify' {
     }
 
     interface FastifyReply {
-        sendSuccess: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyReply;
-        sendError: (message: unknown, status: number, otherProperties?: Record<string, any>) => FastifyReply;
+        sendSuccess: (message: unknown, status: number, otherProperties?: Record<string, unknown>) => FastifyReply;
+        sendError: (message: unknown, status: number, otherProperties?: Record<string, unknown>) => FastifyReply;
     }
 }

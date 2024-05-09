@@ -5,7 +5,7 @@ declare global {
         interface ProcessEnv {
             PORT: string;
             NODE_ENV: 'development' | 'production';
-            LOG_IGNORE_IPS: string;
+            LOG_IGNORE_IPS?: string;
         }
     }
 }
