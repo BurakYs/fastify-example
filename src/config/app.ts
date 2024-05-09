@@ -1,11 +1,11 @@
 const { NODE_ENV = '', PORT = 3000 } = process.env;
 
-const isDevelopment = ['development', 'dev', 'test'].includes(NODE_ENV.toLowerCase());
+const isProduction = ['prod', 'production'].includes(NODE_ENV.toLowerCase());
 
 const AppConfig = {
     app: {
-        url: isDevelopment ? `http://localhost:${PORT}` : 'https://api.example.com',
-        isDevelopment
+        url: isProduction ? 'https://api.example.com' : `http://localhost:${PORT}`,
+        isProduction
     }
 };
 
