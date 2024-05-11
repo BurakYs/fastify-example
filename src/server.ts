@@ -1,8 +1,8 @@
 import { glob } from 'glob';
 import path from 'path';
-import Fastify, { FastifyError } from 'fastify';
+import Fastify, { FastifyError, FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
-import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
 import { Request, Response } from '@/interfaces';
 import { RESPONSES } from '@/constants';
 import fastifySwagger from '@fastify/swagger';
@@ -11,7 +11,7 @@ import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import * as middlewares from '@/middlewares';
 
 export default class Server {
-    public server;
+    public server: FastifyInstance;
 
     constructor() {
         this.server = Fastify();
