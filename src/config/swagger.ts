@@ -14,7 +14,7 @@ export const swaggerConfig: SwaggerOptions = {
         },
         servers: [
             {
-                url: appConfig.app.url,
+                url: appConfig.app.url
             }
         ],
         tags: [

@@ -1,4 +1,4 @@
-import { Logger, ILogObjMeta } from 'tslog';
+import { ILogObjMeta, Logger } from 'tslog';
 import { appendFileSync } from 'fs';
 import loggerSettings from '@/config/logger';
 
