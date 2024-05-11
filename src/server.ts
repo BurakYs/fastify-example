@@ -1,5 +1,4 @@
 import { glob } from 'glob';
-import path from 'path';
 import Fastify, { FastifyError, FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
@@ -15,10 +14,9 @@ export default class Server {
 
     constructor() {
         this.server = Fastify();
-        this.create();
     }
 
-    public create() {
+    public async create() {
         const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
 
         this.server
@@ -64,23 +62,20 @@ export default class Server {
             response.sendError(RESPONSES.PAGE_NOT_FOUND, 404);
         });
 
-        this.registerRoutes().then(() => {
-            const port = parseInt(process.env.PORT || '3000');
+        await this.registerRoutes();
 
-            this.server.listen({ port, host: '0.0.0.0' }).then(() => {
-                global.logger.info(`Server listening on http://localhost:${port}`);
-            }).catch(err => {
-                global.logger.error(err);
-                process.exit(1);
-            });
-        });
+        const port = parseInt(process.env.PORT || '3000');
+        await this.server.listen({ port, host: '0.0.0.0' });
+
+        return port;
     }
 
     private async registerRoutes() {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
-        const files = await glob(path.resolve(__dirname, 'routes/**/*.{js,ts}').replace(/\\/g, '/'));
+        const dir = process.env.NODE_ENV === 'test' ? './src' : './dist';
+        const files = glob.sync(dir + '/routes/**/*.{js,ts}');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));

@@ -1,8 +1,6 @@
-import 'module-alias/register';
-
+import { expect, test } from 'vitest';
 import server from '../src/server';
-import tap from 'tap';
 
-tap.test('server', async (t) => {
-    t.equal(typeof server, 'function');
+test('Test server type', async () => {
+    expect(server).toBeInstanceOf(Function);
 });

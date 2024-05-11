@@ -1,31 +1,33 @@
-import 'module-alias/register';
-
+import { afterAll, beforeAll, expect, test } from 'vitest';
 import server from '../../src/index';
-import tap from 'tap';
+
+beforeAll(async () => {
+    await server.create();
+});
 
 const fastify = server.server;
 
-tap.test('Test invalid parameters', async (t) => {
+test('Test invalid parameters', async () => {
     const response = await fastify.inject({
         method: 'GET',
         url: '/zod/query'
     });
 
-    t.equal(response.statusCode, 400);
-    t.equal(response.json().validationFailures?.length, 1);
+    expect(response.statusCode).toBe(400);
+    expect(response.json().validationFailures?.length).toBe(1);
 });
 
-tap.test('Test query parameters', async (t) => {
+test('Test query parameters', async () => {
     const response = await fastify.inject({
         method: 'GET',
         url: '/zod/query?hello=world'
     });
 
-    t.equal(response.statusCode, 200);
-    t.equal(response.json().data?.hello, 'world');
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data?.hello).toBe('world');
 });
 
-tap.test('Test body parameters', async (t) => {
+test('Test body parameters', async () => {
     const response = await fastify.inject({
         method: 'POST',
         url: '/zod/body',
@@ -34,11 +36,11 @@ tap.test('Test body parameters', async (t) => {
         }
     });
 
-    t.equal(response.statusCode, 200);
-    t.equal(response.json().data?.hello, 'world');
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data?.hello).toBe('world');
 });
 
-tap.test('Test params parameters', async (t) => {
+test('Test params parameters', async () => {
     const id = 'f01643f4-34d0-4ec6-8b81-a96041fe65c0';
 
     const response = await fastify.inject({
@@ -46,10 +48,10 @@ tap.test('Test params parameters', async (t) => {
         url: '/zod/params/' + id
     });
 
-    t.equal(response.statusCode, 200);
-    t.equal(response.json().data?.id, id);
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data?.id).toBe(id);
 });
 
-tap.teardown( () => {
-    fastify.close();
+afterAll(async () => {
+    await fastify.close();
 });
