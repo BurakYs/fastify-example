@@ -7,7 +7,7 @@
     "dev": "node .",
     "start": "node . --production",
     "build": "tsc",
-    "test": "tap tests/**/*.test.ts",
+    "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "check": "tsc --noEmit"
