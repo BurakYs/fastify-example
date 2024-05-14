@@ -1,10 +1,10 @@
-<img src="https://raw.githubusercontent.com/fastify/graphics/master/fastify-1000px-square-01.png" align="left" width="160" height="160" alt="Fastify Logo">
-
-<br />
+<img src="https://raw.githubusercontent.com/fastify/graphics/master/fastify-1000px-square-01.png" align="left" width="150" height="150" alt="Fastify Logo">
 
 # 🚀 Fastify Rest API
 
 A simple example of a REST API using Fastify, TypeScript, Zod and Swagger.
+
+<br />
 
 ## 🏠 Run Locally
 ```bash 
