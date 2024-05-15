@@ -33,6 +33,6 @@ Run the command below to run the tests:
 npm test
 ```
 
-## License
+## 📝 License
 
 This project is licensed under the MIT License. See [LICENSE](./LICENSE) for more information.
