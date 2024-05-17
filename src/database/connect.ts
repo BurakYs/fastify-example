@@ -7,9 +7,14 @@ export default async function connect(url?: string) {
         process.exit(1);
     }
 
-    await mongoose.connect(url, {
-        dbName: appConfig.isProduction ? 'production' : 'development'
-    });
+    try {
+        await mongoose.connect(url, {
+            dbName: appConfig.isProduction ? 'production' : 'development'
+        });
 
-    global.logger.info('Connected to MongoDB');
+        global.logger.info('Connected to MongoDB');
+    } catch (error) {
+        global.logger.fatal('Failed to connect to MongoDB', error);
+        process.exit(1);
+    }
 }
