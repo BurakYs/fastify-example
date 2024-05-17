@@ -14,11 +14,11 @@ export const swaggerConfig: SwaggerOptions = {
         },
         servers: [
             {
-                url: appConfig.app.url
+                url: appConfig.rootUrl
             }
         ],
         tags: [
-            { name: 'Zod', description: 'Zod example endpoints' }
+            { name: 'URL', description: 'URL shortener endpoints' }
         ]
     },
     transform: jsonSchemaTransform
