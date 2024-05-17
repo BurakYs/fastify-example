@@ -3,7 +3,6 @@ import 'dotenv/config';
 import { Logger } from '@/helpers';
 import Server from './server';
 import { existsSync, mkdirSync } from 'fs';
-import connectDatabase from '@/database/connect';
 
 if (!existsSync('./logs')) mkdirSync('./logs');
 
@@ -19,7 +18,6 @@ if (process.env.NODE_ENV !== 'test') server.create()
         await server.server.close();
     });
 
-connectDatabase(process.env.MONGO_URI);
 
 process.on('unhandledRejection', (error: unknown) => global.logger.error(error));
 process.on('uncaughtException', (error: unknown) => global.logger.error(error));

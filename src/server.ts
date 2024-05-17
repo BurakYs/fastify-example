@@ -7,6 +7,7 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import * as middlewares from '@/middlewares';
+import connectDatabase from '@/database/connect';
 
 export default class Server {
     public server: FastifyInstance;
@@ -36,7 +37,11 @@ export default class Server {
         });
 
         this.server.addHook('onResponse', async (request, response) => {
-            if (!ipAddressesToIgnore.includes(request.clientIp) && (!request.url.startsWith('/docs/') || request.url === '/docs/json')) {
+            if (
+                process.env.NODE_ENV !== 'test'
+                && !ipAddressesToIgnore.includes(request.clientIp)
+                && (!request.url.startsWith('/docs/') || request.url === '/docs/json')
+            ) {
                 global.logger.logRequest(`${request.clientIp} - ${request.method} ${request.url} - ${response.statusCode}`);
             }
         });
@@ -65,6 +70,8 @@ export default class Server {
 
         const port = parseInt(process.env.PORT || '3000');
         await this.server.listen({ port, host: '0.0.0.0' });
+
+        await connectDatabase(process.env.MONGO_URI);
 
         return port;
     }
