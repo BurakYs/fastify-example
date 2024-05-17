@@ -18,7 +18,6 @@ if (process.env.NODE_ENV !== 'test') server.create()
         await server.server.close();
     });
 
-
 process.on('unhandledRejection', (error: unknown) => global.logger.error(error));
 process.on('uncaughtException', (error: unknown) => global.logger.error(error));
 
