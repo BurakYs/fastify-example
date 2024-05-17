@@ -18,7 +18,6 @@ export const swaggerConfig: SwaggerOptions = {
             }
         ],
         tags: [
-            { name: 'Zod', description: 'Zod example endpoints' },
             { name: 'URL', description: 'URL shortener endpoints' }
         ]
     },
