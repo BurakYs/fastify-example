@@ -6,6 +6,7 @@ declare global {
             PORT: string;
             NODE_ENV: 'development' | 'production' | 'test';
             LOG_IGNORE_IPS?: string;
+            MONGO_URI?: string;
         }
     }
 }

@@ -21,6 +21,7 @@
     "fastify-zod": "^1.4.0",
     "glob": "^10.3.12",
     "module-alias": "^2.2.3",
+    "mongoose": "^8.4.0",
     "tslog": "^4.9.2",
     "vitest": "^1.6.0",
     "zod": "^3.22.4"

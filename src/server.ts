@@ -3,7 +3,6 @@ import Fastify, { FastifyError, FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
 import { Request, Response } from '@/interfaces';
-import { RESPONSES } from '@/constants';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
@@ -45,7 +44,7 @@ export default class Server {
         this.server.setErrorHandler((error: ZodError & FastifyError, request: Request, response: Response) => {
             if (error.code === 'FST_ERR_VALIDATION') {
                 response.sendError(`Invalid parameters were provided: ${error.issues.map(x => x.path.join('.')).join(', ')}`, 400, {
-                    validationFailures: error.issues.map(x => ({
+                    validationFailures: error.issues.map((x) => ({
                         path: x.path.join('.'),
                         message: x.message
                     }))
@@ -54,12 +53,12 @@ export default class Server {
             }
 
             global.logger.error(error);
-            response.sendError(RESPONSES.INTERNAL_SERVER_ERROR, 500);
+            response.sendError('Internal Server Error', 500);
             return;
         });
 
         this.server.setNotFoundHandler((request: Request, response: Response) => {
-            response.sendError(RESPONSES.PAGE_NOT_FOUND, 404);
+            response.sendError('Not Found', 404);
         });
 
         await this.registerRoutes();
