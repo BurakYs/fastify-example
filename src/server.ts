@@ -81,7 +81,7 @@ export default class Server {
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
         const dir = process.env.NODE_ENV === 'test' ? './src' : './dist';
-        const files = glob.sync(dir + '/routes/**/*.{js,ts}');
+        const files = await glob(dir + '/routes/**/*.{js,ts}');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));
