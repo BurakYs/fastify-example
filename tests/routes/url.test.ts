@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import fastify from '../build';
+import fastify from '../setup';
 
 let slug: string;
 
