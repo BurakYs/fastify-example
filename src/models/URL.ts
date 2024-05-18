@@ -1,12 +1,8 @@
-import mongoose, { Document, Schema, SchemaOptions } from 'mongoose';
+import mongoose, { Schema, ValidatorProps } from 'mongoose';
 import urlValidation from '@/helpers/validations/url/url';
 import slugValidation from '@/helpers/validations/url/slug';
 
-type ValidationError = {
-    reason: Error
-};
-
-export type URLType = Document & {
+interface IURL {
     url: string;
     slug: string;
     createdBy: string;
@@ -14,13 +10,13 @@ export type URLType = Document & {
     updatedAt: Date;
 }
 
-const URLSchema = new Schema({
+const URLSchema = new Schema<IURL>({
     url: {
         type: String,
         required: true,
         validate: {
             validator: urlValidation,
-            message: ({ reason }: ValidationError) => reason.message
+            message: (props: ValidatorProps) => props.reason?.message || ''
         }
     },
     slug: {
@@ -29,7 +25,7 @@ const URLSchema = new Schema({
         required: true,
         validate: {
             validator: slugValidation,
-            message: ({ reason }: ValidationError) => reason.message
+            message: (props: ValidatorProps) => props.reason?.message || ''
         }
     },
     createdBy: {
@@ -39,6 +35,6 @@ const URLSchema = new Schema({
 }, {
     timestamps: true,
     versionKey: false
-} as SchemaOptions);
+});
 
-export default mongoose.model('URL', URLSchema);
+export default mongoose.model<IURL>('URL', URLSchema);

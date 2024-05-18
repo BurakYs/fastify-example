@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
-import URL, { URLType } from '@/models/URL';
+import URL from '@/models/URL';
 import { URLCreate, URLCreateT, URLDelete, URLDeleteT, URLRedirect, URLRedirectT } from '@/schemas/url';
 import { generateSlug } from '@/helpers';
 import { checkDbConnection } from '@/middlewares';
@@ -46,7 +46,7 @@ export default async (fastify: FastifyInstance) => {
         handler: async (request: Request, response: Response) => {
             const params = request.params as URLRedirectT;
 
-            const url: URLType | null = await URL.findOne({ slug: params.slug });
+            const url = await URL.findOne({ slug: params.slug });
             if (!url) {
                 response.sendError('URL not found', 404);
                 return;
@@ -69,7 +69,7 @@ export default async (fastify: FastifyInstance) => {
         handler: async (request: Request, response: Response) => {
             const params = request.params as URLDeleteT;
 
-            const url: URLType | null = await URL.findOne({ slug: params.slug });
+            const url = await URL.findOne({ slug: params.slug });
             if (!url) {
                 response.sendError('URL not found', 404);
                 return;
