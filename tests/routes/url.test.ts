@@ -1,11 +1,5 @@
-import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import server from '../../src/index';
-
-beforeAll(async () => {
-    await server.create();
-});
-
-const fastify = server.server;
+import { describe, expect, test } from 'vitest';
+import fastify from '../build';
 
 let slug: string;
 
@@ -46,9 +40,5 @@ describe('Test URL routes', () => {
         });
 
         expect(response.statusCode).toBe(204);
-    });
-
-    afterAll(async () => {
-        await fastify.close();
     });
 });
