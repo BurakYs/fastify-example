@@ -18,6 +18,7 @@ export default class Server {
 
     public async create() {
         const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
+        const isTestEnvironment = process.env.NODE_ENV === 'test';
 
         this.server
             .withTypeProvider<ZodTypeProvider>()
@@ -37,11 +38,10 @@ export default class Server {
         });
 
         this.server.addHook('onResponse', async (request, response) => {
-            if (
-                process.env.NODE_ENV !== 'test'
-                && !ipAddressesToIgnore.includes(request.clientIp)
-                && (!request.url.startsWith('/docs/') || request.url === '/docs/json')
-            ) {
+            const isIgnoredIp = ipAddressesToIgnore.includes(request.clientIp);
+            const isDocsRoute = !request.url.startsWith('/docs') || request.url === '/docs/json';
+
+            if (!isTestEnvironment && !isIgnoredIp && isDocsRoute) {
                 global.logger.logRequest(`${request.clientIp} - ${request.method} ${request.url} - ${response.statusCode}`);
             }
         });
@@ -69,7 +69,7 @@ export default class Server {
         await this.registerRoutes();
 
         const port = parseInt(process.env.PORT || '3000');
-        await this.server.listen({ port, host: '0.0.0.0' });
+        if (!isTestEnvironment) await this.server.listen({ port, host: '0.0.0.0' });
 
         await connectDatabase(process.env.MONGO_URI);
 

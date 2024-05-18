@@ -8,9 +8,9 @@ export const swaggerConfig: SwaggerOptions = {
     openapi: {
         openapi: '3.0.0',
         info: {
-            title: 'Fastify API',
+            title: 'URL Shortener',
             version: '1.0.0',
-            description: 'Fastify API Example using TypeScript, Swagger and Zod'
+            description: 'URL Shortener API Example using TypeScript, Zod and Swagger'
         },
         servers: [
             {
@@ -32,8 +32,17 @@ export const swaggerUIConfig: FastifySwaggerUiOptions = {
         layout: 'BaseLayout'
     },
     theme: {
-        title: 'Fastify API Documentation',
-        css: [{ filename: 'swagger.css', content: fs.readFileSync('./public/swagger.min.css', 'utf-8') }],
-        favicon: [{ filename: 'favicon.ico', rel: 'icon', type: 'image/x-icon', sizes: '16x16', content: fs.readFileSync('./public/favicon.ico') }]
+        title: 'URL Shortener API Documentation',
+        css: [{
+            filename: 'swagger.css',
+            content: fs.readFileSync('./public/swagger.min.css', 'utf-8')
+        }],
+        favicon: [{
+            filename: 'favicon.ico',
+            rel: 'icon',
+            type: 'image/x-icon',
+            sizes: '16x16',
+            content: fs.readFileSync('./public/favicon.ico')
+        }]
     }
 };
