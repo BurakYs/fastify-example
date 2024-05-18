@@ -1,8 +1,8 @@
-import { ILogObjMeta, Logger } from 'tslog';
+import { ILogObj, ILogObjMeta, Logger } from 'tslog';
 import { appendFileSync } from 'fs';
 import loggerSettings from '@/config/logger';
 
-export default class CustomLogger<LogObj> extends Logger<LogObj> {
+export default class CustomLogger extends Logger<ILogObj> {
     constructor() {
         super(loggerSettings);
 
@@ -21,7 +21,7 @@ export default class CustomLogger<LogObj> extends Logger<LogObj> {
      * @param args - Multiple log attributes that should be logged.
      * @return LogObject with meta property, when log level is >= minLevel
      */
-    public logRequest(...args: unknown[]): LogObj & ILogObjMeta | undefined {
+    public logRequest(...args: unknown[]): ILogObj & ILogObjMeta | undefined {
         return super.log(6, 'REQUEST', ...args);
     }
 }

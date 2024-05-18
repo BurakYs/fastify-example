@@ -1,7 +1,6 @@
-import { ISettingsParam } from 'tslog';
+import { ILogObj, ISettingsParam } from 'tslog';
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-const loggerSettings: ISettingsParam<any> = {
+const loggerSettings: ISettingsParam<ILogObj> = {
     type: 'pretty',
     prettyLogTemplate: '{{dd}}-{{mm}}-{{yyyy}} {{hh}}:{{mm}}:{{ss}} {{logLevelName}} {{filePathWithLine}}{{name}}  ',
     prettyErrorTemplate: '{{errorName}} {{errorMessage}}\n{{errorStack}}',
