@@ -18,7 +18,8 @@ export const swaggerConfig: SwaggerOptions = {
             }
         ],
         tags: [
-            { name: 'URL', description: 'URL shortener endpoints' }
+            { name: 'URL', description: 'URL shortener endpoints' },
+            { name: 'Zod', description: 'Zod validation test endpoints' }
         ]
     },
     transform: jsonSchemaTransform

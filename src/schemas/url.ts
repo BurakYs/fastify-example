@@ -3,17 +3,17 @@ import sendZodError from '@/helpers/validations/sendZodError';
 import urlValidation from '@/helpers/validations/url/url';
 import slugValidation from '@/helpers/validations/url/slug';
 
-export const URLCreate = z.object({
+export const urlCreate = z.object({
     url: z.string().describe('URL to shorten').refine((url) => sendZodError(urlValidation, url, ['url']))
 });
-export type URLCreateT = z.infer<typeof URLCreate>;
+export type URLCreate = z.infer<typeof urlCreate>;
 
-export const URLRedirect = z.object({
+export const urlRedirect = z.object({
     slug: z.string().describe('Slug to redirect').refine((slug) => sendZodError(slugValidation, slug, ['slug']))
 });
-export type URLRedirectT = z.infer<typeof URLRedirect>;
+export type URLRedirect = z.infer<typeof urlRedirect>;
 
-export const URLDelete = z.object({
+export const urlDelete = z.object({
     slug: z.string().describe('Slug to delete').refine((slug) => sendZodError(slugValidation, slug, ['slug']))
 });
-export type URLDeleteT = z.infer<typeof URLDelete>;
+export type URLDelete = z.infer<typeof urlDelete>;

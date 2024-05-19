@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
 import URL from '@/models/URL';
-import { URLCreate, URLCreateT, URLDelete, URLDeleteT, URLRedirect, URLRedirectT } from '@/schemas/url';
+import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
+import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 import { generateSlug } from '@/helpers';
 import { checkDbConnection } from '@/middlewares';
 import appConfig from '@/config/app';
@@ -13,11 +14,11 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             summary: 'Shorten a URL',
             tags: ['URL'],
-            body: URLCreate
+            body: urlCreate
         },
         preHandler: [checkDbConnection],
         handler: async (request: Request, response: Response) => {
-            const body = request.body as URLCreateT;
+            const body = request.body as URLCreate;
             const slug = generateSlug();
 
             await new URL({
@@ -30,7 +31,6 @@ export default async (fastify: FastifyInstance) => {
                 url: appConfig.rootUrl + '/url/' + slug,
                 slug
             }, 201);
-            return;
         }
     });
 
@@ -40,11 +40,11 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             summary: 'Redirect to the original URL',
             tags: ['URL'],
-            params: URLRedirect
+            params: urlRedirect
         },
         preHandler: [checkDbConnection],
         handler: async (request: Request, response: Response) => {
-            const params = request.params as URLRedirectT;
+            const params = request.params as URLRedirect;
 
             const url = await URL.findOne({ slug: params.slug });
             if (!url) {
@@ -53,7 +53,6 @@ export default async (fastify: FastifyInstance) => {
             }
 
             response.code(301).redirect(url.url);
-            return;
         }
     });
 
@@ -63,11 +62,11 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             summary: 'Delete a short URL',
             tags: ['URL'],
-            params: URLDelete
+            params: urlDelete
         },
         preHandler: [checkDbConnection],
         handler: async (request: Request, response: Response) => {
-            const params = request.params as URLDeleteT;
+            const params = request.params as URLDelete;
 
             const url = await URL.findOne({ slug: params.slug });
             if (!url) {
@@ -82,7 +81,6 @@ export default async (fastify: FastifyInstance) => {
 
             await url.deleteOne();
             response.code(204).send();
-            return;
         }
     });
 };

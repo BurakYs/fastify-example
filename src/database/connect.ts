@@ -7,14 +7,18 @@ export default async function connect(url?: string) {
         process.exit(1);
     }
 
+    const shouldLog = process.env.NODE_ENV !== 'test';
+
     try {
         await mongoose.connect(url, {
             dbName: appConfig.isProduction ? 'production' : 'development'
         });
 
-        global.logger.info('Connected to MongoDB');
+        if (shouldLog) global.logger.info('Connected to MongoDB');
     } catch (error) {
-        global.logger.fatal('Failed to connect to MongoDB', error);
-        process.exit(1);
+        if (shouldLog) {
+            global.logger.fatal('Failed to connect to MongoDB', error);
+            process.exit(1);
+        }
     }
 }

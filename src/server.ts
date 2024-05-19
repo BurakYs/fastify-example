@@ -48,12 +48,16 @@ export default class Server {
 
         this.server.setErrorHandler((error: ZodError & FastifyError, request: Request, response: Response) => {
             if (error.code === 'FST_ERR_VALIDATION') {
-                response.sendError(`Invalid parameters were provided: ${error.issues.map(x => x.path.join('.')).join(', ')}`, 400, {
+                response.sendError('Invalid Parameters', 400, {
                     validationFailures: error.issues.map((x) => ({
                         path: x.path.join('.'),
                         message: x.message
                     }))
                 });
+                return;
+            }
+            if (error.statusCode === 429) {
+                response.sendError('Too Many Requests', 429);
                 return;
             }
 
@@ -67,6 +71,7 @@ export default class Server {
         });
 
         await this.registerRoutes();
+        await this.registerPlugins();
 
         const port = parseInt(process.env.PORT || '3000');
         if (!isTestEnvironment) await this.server.listen({ port, host: '0.0.0.0' });
@@ -90,6 +95,17 @@ export default class Server {
 
             const route = await import(file);
             this.server.register(route.default, { prefix });
+        }
+    }
+
+    private async registerPlugins() {
+        const dir = process.env.NODE_ENV === 'test' ? './src' : './dist';
+        const files = await glob(dir + '/plugins/**/*.{js,ts}');
+
+        for (let file of files) {
+            file = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
+            const plugin = await import(file);
+            this.server.register(plugin.default);
         }
     }
 }
