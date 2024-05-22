@@ -9,6 +9,28 @@ import appConfig from '@/config/app';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({
+        method: 'GET',
+        url: '/:slug',
+        schema: {
+            summary: 'Redirect to the original URL',
+            tags: ['URL'],
+            params: urlRedirect
+        },
+        preHandler: [checkDbConnection],
+        handler: async (request: Request, response: Response) => {
+            const params = request.params as URLRedirect;
+
+            const url = await URL.findOne({ slug: params.slug });
+            if (!url) {
+                response.sendError('URL not found', 404);
+                return;
+            }
+
+            response.code(301).redirect(url.url);
+        }
+    });
+
+    fastify.route({
         method: 'POST',
         url: '/shorten',
         schema: {
@@ -31,28 +53,6 @@ export default async (fastify: FastifyInstance) => {
                 url: appConfig.rootUrl + '/url/' + slug,
                 slug
             }, 201);
-        }
-    });
-
-    fastify.route({
-        method: 'GET',
-        url: '/:slug',
-        schema: {
-            summary: 'Redirect to the original URL',
-            tags: ['URL'],
-            params: urlRedirect
-        },
-        preHandler: [checkDbConnection],
-        handler: async (request: Request, response: Response) => {
-            const params = request.params as URLRedirect;
-
-            const url = await URL.findOne({ slug: params.slug });
-            if (!url) {
-                response.sendError('URL not found', 404);
-                return;
-            }
-
-            response.code(301).redirect(url.url);
         }
     });
 
