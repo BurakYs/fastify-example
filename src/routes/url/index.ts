@@ -43,11 +43,11 @@ export default async (fastify: FastifyInstance) => {
             const body = request.body as URLCreate;
             const slug = generateSlug();
 
-            await new URL({
+            await URL.create({
                 url: body.url,
                 slug,
                 createdBy: request.clientIp
-            }).save();
+            });
 
             response.sendSuccess({
                 url: appConfig.rootUrl + '/url/' + slug,
