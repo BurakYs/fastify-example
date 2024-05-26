@@ -63,7 +63,6 @@ export default class Server {
 
             global.logger.error(error);
             response.sendError('Internal Server Error', 500);
-            return;
         });
 
         this.server.setNotFoundHandler((request: Request, response: Response) => {

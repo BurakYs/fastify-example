@@ -1,9 +1,6 @@
 /node_modules
-.tap
 .vscode
 .idea
 /dist
-/logs
 .env
 package-lock.json
-pnpm-lock.yaml
