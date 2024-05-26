@@ -14,6 +14,7 @@ const URLSchema = new Schema<IURL>({
     url: {
         type: String,
         required: true,
+        maxlength: 4096,
         validate: {
             validator: urlValidation,
             message: (props: ValidatorProps) => props.reason?.message || ''
