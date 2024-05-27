@@ -11,7 +11,6 @@ export default async (fastify: FastifyInstance) => {
         },
         handler: async (request: Request, response: Response) => {
             response.code(200).send('ok');
-            return;
         }
     });
 
@@ -23,7 +22,6 @@ export default async (fastify: FastifyInstance) => {
         },
         handler: async (request: Request, response: Response) => {
             response.code(200).send(fs.readFileSync('./public/favicon.ico'));
-            return;
         }
     });
 };
