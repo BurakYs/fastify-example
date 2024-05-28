@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import fastify from '../setup';
 
-let slug: string;
-
 describe('Test URL routes', () => {
+    let slug: string;
+
     test('Create a new URL', async () => {
         const response = await fastify.inject({
             method: 'POST',
@@ -20,8 +20,6 @@ describe('Test URL routes', () => {
     });
 
     test('Redirect to the original URL', async () => {
-        test.skipIf(!slug);
-
         const response = await fastify.inject({
             method: 'GET',
             url: '/url/' + slug
@@ -32,8 +30,6 @@ describe('Test URL routes', () => {
     });
 
     test('Delete the URL', async () => {
-        test.skipIf(!slug);
-
         const response = await fastify.inject({
             method: 'DELETE',
             url: '/url/' + slug

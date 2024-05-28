@@ -12,8 +12,10 @@ describe('Test Zod validation', () => {
             url: '/zod/query?' + new URLSearchParams(query).toString()
         });
 
+        const failures = response.json().validationFailures;
         expect(response.statusCode).toBe(400);
-        expect(response.json().validationFailures[0].message).toBe('Required');
+        expect(failures).toHaveLength(1);
+        expect(failures[0].message).toBe('Required');
     });
 
     test('Test invalid number type', async () => {
@@ -27,8 +29,10 @@ describe('Test Zod validation', () => {
             url: '/zod/query?' + new URLSearchParams(query).toString()
         });
 
+        const failures = response.json().validationFailures;
         expect(response.statusCode).toBe(400);
-        expect(response.json().validationFailures[0].message).toBe('Expected number, received string');
+        expect(failures).toHaveLength(1);
+        expect(failures[0].message).toBe('Expected number, received string');
     });
 
     test('Test invalid boolean type', async () => {
@@ -43,8 +47,10 @@ describe('Test Zod validation', () => {
             url: '/zod/query?' + new URLSearchParams(query).toString()
         });
 
+        const failures = response.json().validationFailures;
         expect(response.statusCode).toBe(400);
-        expect(response.json().validationFailures[0].message).toBe('Expected boolean, received string');
+        expect(failures).toHaveLength(1);
+        expect(failures[0].message).toBe('Expected boolean, received string');
     });
 
     test('Test valid query', async () => {
