@@ -3,9 +3,16 @@ import 'dotenv/config';
 import { Logger } from '@/helpers';
 import Server from './server';
 
-if (process.argv.includes('--production')) process.env.NODE_ENV = 'production';
-
 global.logger = new Logger();
+
+const requiredEnvVariables = ['MONGO_URI'];
+const missingEnvVariables = requiredEnvVariables.filter((env) => !process.env[env]);
+if (missingEnvVariables.length) {
+    global.logger.fatal(`Missing required environment variables: ${missingEnvVariables.join(', ')}`);
+    process.exit(1);
+}
+
+if (process.argv.includes('--production')) process.env.NODE_ENV = 'production';
 
 const server = new Server();
 if (process.env.NODE_ENV !== 'test') server.create()

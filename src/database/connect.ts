@@ -1,12 +1,7 @@
 import mongoose from 'mongoose';
 import appConfig from '@/config/app';
 
-export default async function connect(url?: string) {
-    if (!url) {
-        global.logger.fatal('MongoDB URI not provided');
-        process.exit(1);
-    }
-
+export default async function connect(url: string) {
     const shouldLog = process.env.NODE_ENV !== 'test';
 
     try {
