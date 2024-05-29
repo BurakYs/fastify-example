@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
-import type { QueryTest } from '@/schemas/zod';
+
 import { queryTest } from '@/schemas/zod';
+import type { QueryTest } from '@/schemas/zod';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({

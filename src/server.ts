@@ -1,11 +1,11 @@
-import { glob } from 'glob';
 import Fastify, { FastifyError, FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
 import { Request, Response } from '@/interfaces';
+import { glob } from 'glob';
+import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import * as middlewares from '@/middlewares';
 import connectDatabase from '@/database/connect';
 

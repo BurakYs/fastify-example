@@ -1,11 +1,12 @@
 import { FastifyInstance } from 'fastify';
 import { Request, Response } from '@/interfaces';
-import URL from '@/models/URL';
-import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
-import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 import { generateSlug } from '@/helpers';
 import { checkDbConnection } from '@/middlewares';
+import URL from '@/models/URL';
 import appConfig from '@/config/app';
+
+import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
+import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({
