@@ -1,5 +1,4 @@
-import { FastifyInstance } from 'fastify';
-import { Request, Response } from '@/interfaces';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import fs from 'fs';
 
 export default async (fastify: FastifyInstance) => {
@@ -9,8 +8,8 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             hide: true
         },
-        handler: async (request: Request, response: Response) => {
-            response.code(200).send('ok');
+        handler: async (_request: FastifyRequest, response: FastifyReply) => {
+            response.code(200).send('OK');
         }
     });
 
@@ -20,7 +19,8 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             hide: true
         },
-        handler: async (request: Request, response: Response) => {
+        handler: async (_request: FastifyRequest, response: FastifyReply) => {
+            response.header('Cache-Control', 'public, max-age=2592000');
             response.code(200).send(fs.readFileSync('./public/favicon.ico'));
         }
     });

@@ -6,7 +6,7 @@ process.env.NODE_ENV = 'test';
 export default defineConfig({
     test: {
         globals: true,
-        setupFiles: ['./tests/setup.ts'],
+        setupFiles: ['./tests/setup.ts']
     },
     resolve: {
         alias: {

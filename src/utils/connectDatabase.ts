@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import appConfig from '@/config/app';
 
-export default async function connect(url: string) {
+export default async function connectDatabase(url: string) {
     const shouldLog = process.env.NODE_ENV !== 'test';
 
     try {

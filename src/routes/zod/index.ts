@@ -1,8 +1,7 @@
-import { FastifyInstance } from 'fastify';
-import { Request, Response } from '@/interfaces';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import { queryTest } from '@/schemas/zod';
 import type { QueryTest } from '@/schemas/zod';
+import { queryTest } from '@/schemas/zod';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({
@@ -13,7 +12,7 @@ export default async (fastify: FastifyInstance) => {
             tags: ['Zod'],
             querystring: queryTest
         },
-        handler: async (request: Request, response: Response) => {
+        handler: async (request: FastifyRequest, response: FastifyReply) => {
             const query = request.query as QueryTest;
             response.sendSuccess(query, 200);
         }

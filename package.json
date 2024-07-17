@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "author": "@BurakYs",
+  "license": "ISC",
   "scripts": {
     "dev": "node .",
     "start": "node . --production",
@@ -27,14 +28,13 @@
     "vitest": "^1.6.0",
     "zod": "^3.22.4"
   },
-  "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.7.0",
     "@types/module-alias": "^2.0.4",
     "@types/node": "^20.12.7",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
-    "eslint": "^8.57.0",
-    "tslib": "^2.6.2"
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0",
+    "typescript-eslint": "^7.16.1"
   },
   "_moduleAliases": {
     "@": "./dist"

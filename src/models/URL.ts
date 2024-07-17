@@ -1,8 +1,8 @@
-import mongoose, { Schema, ValidatorProps } from 'mongoose';
-import urlValidation from '@/helpers/validations/url/url';
-import slugValidation from '@/helpers/validations/url/slug';
+import mongoose, { Schema, type ValidatorProps } from 'mongoose';
+import urlValidation from '@/utils/validations/url/url';
+import slugValidation from '@/utils/validations/url/slug';
 
-interface IURL {
+type IURL = {
     url: string;
     slug: string;
     createdBy: string;

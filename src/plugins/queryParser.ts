@@ -2,7 +2,11 @@ import fp from 'fastify-plugin';
 import { z, ZodDefault, ZodNullable, ZodOptional, ZodTypeAny } from 'zod';
 
 function unwrapSchema(schema: ZodTypeAny): ZodTypeAny {
-    while (schema instanceof ZodDefault || schema instanceof ZodOptional || schema instanceof ZodNullable) {
+    while (
+        schema instanceof ZodDefault ||
+        schema instanceof ZodOptional ||
+        schema instanceof ZodNullable
+    ) {
         schema = schema._def.innerType;
     }
     return schema;
@@ -36,17 +40,19 @@ const queryParser = fp(async (fastify) => {
 
                     if (paramSchema instanceof z.ZodArray) {
                         if (typeof requestQuery[key] === 'string') {
-                            requestQuery[key] = (requestQuery[key] as string).split(',').map((item: string) => {
-                                const arraySchema = unwrapSchema(paramSchema._def.type);
-                                if (arraySchema instanceof z.ZodNumber) {
-                                    const num = Number(item);
-                                    return !isNaN(num) ? num : item;
-                                } else if (arraySchema instanceof z.ZodBoolean) {
-                                    return item === 'true';
-                                } else {
-                                    return item;
-                                }
-                            });
+                            requestQuery[key] = (requestQuery[key] as string)
+                                .split(',')
+                                .map((item: string) => {
+                                    const arraySchema = unwrapSchema(paramSchema._def.type);
+                                    if (arraySchema instanceof z.ZodNumber) {
+                                        const num = Number(item);
+                                        return !isNaN(num) ? num : item;
+                                    } else if (arraySchema instanceof z.ZodBoolean) {
+                                        return item === 'true';
+                                    } else {
+                                        return item;
+                                    }
+                                });
                         }
                     }
                 } else {

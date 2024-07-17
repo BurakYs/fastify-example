@@ -1,13 +1,12 @@
-import Fastify, { FastifyError, FastifyInstance } from 'fastify';
-import { ZodError } from 'zod';
-import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
-import { Request, Response } from '@/interfaces';
-import { glob } from 'glob';
+import Fastify, { type FastifyError, type FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { ZodError } from 'zod';
+import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
+import { glob } from 'glob';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import { connectDatabase } from '@/utils';
 import * as middlewares from '@/middlewares';
-import connectDatabase from '@/database/connect';
 
 export default class Server {
     public server: FastifyInstance;
@@ -34,19 +33,18 @@ export default class Server {
         });
 
         this.server.addHook('onRequest', async (request) => {
-            request.clientIp = middlewares.ip(request);
+            middlewares.ip(request);
         });
 
         this.server.addHook('onResponse', async (request, response) => {
             const isIgnoredIp = ipAddressesToIgnore.includes(request.clientIp);
-            const isDocsRoute = !request.url.startsWith('/docs') || request.url === '/docs/json';
 
-            if (!isTestEnvironment && !isIgnoredIp && isDocsRoute) {
+            if (!isTestEnvironment && !isIgnoredIp) {
                 global.logger.logRequest(`${request.clientIp} - ${request.method} ${request.url} - ${response.statusCode}`);
             }
         });
 
-        this.server.setErrorHandler((error: ZodError & FastifyError, request: Request, response: Response) => {
+        this.server.setErrorHandler((error: ZodError & FastifyError, _request: FastifyRequest, response: FastifyReply) => {
             if (error.code === 'FST_ERR_VALIDATION') {
                 response.sendError('Invalid Parameters', 400, {
                     validationFailures: error.issues.map((x) => ({
@@ -56,6 +54,7 @@ export default class Server {
                 });
                 return;
             }
+
             if (error.statusCode === 429) {
                 response.sendError('Too Many Requests', 429);
                 return;
@@ -65,7 +64,7 @@ export default class Server {
             response.sendError('Internal Server Error', 500);
         });
 
-        this.server.setNotFoundHandler((request: Request, response: Response) => {
+        this.server.setNotFoundHandler((_request: FastifyRequest, response: FastifyReply) => {
             response.sendError('Not Found', 404);
         });
 
@@ -103,6 +102,7 @@ export default class Server {
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
+
             const plugin = await import(file);
             this.server.register(plugin.default);
         }

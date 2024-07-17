@@ -1,12 +1,11 @@
-import { FastifyInstance } from 'fastify';
-import { Request, Response } from '@/interfaces';
-import { generateSlug } from '@/helpers';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { generateSlug } from '@/utils';
 import { checkDbConnection } from '@/middlewares';
 import URL from '@/models/URL';
 import appConfig from '@/config/app';
 
-import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
+import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({
@@ -18,14 +17,11 @@ export default async (fastify: FastifyInstance) => {
             params: urlRedirect
         },
         preHandler: [checkDbConnection],
-        handler: async (request: Request, response: Response) => {
+        handler: async (request: FastifyRequest, response: FastifyReply) => {
             const params = request.params as URLRedirect;
 
             const url = await URL.findOne({ slug: params.slug });
-            if (!url) {
-                response.sendError('URL not found', 404);
-                return;
-            }
+            if (!url) return response.sendError('URL not found', 404);
 
             response.code(301).redirect(url.url);
         }
@@ -40,7 +36,7 @@ export default async (fastify: FastifyInstance) => {
             body: urlCreate
         },
         preHandler: [checkDbConnection],
-        handler: async (request: Request, response: Response) => {
+        handler: async (request: FastifyRequest, response: FastifyReply) => {
             const body = request.body as URLCreate;
             const slug = generateSlug();
 
@@ -66,19 +62,13 @@ export default async (fastify: FastifyInstance) => {
             params: urlDelete
         },
         preHandler: [checkDbConnection],
-        handler: async (request: Request, response: Response) => {
+        handler: async (request: FastifyRequest, response: FastifyReply) => {
             const params = request.params as URLDelete;
 
             const url = await URL.findOne({ slug: params.slug });
-            if (!url) {
-                response.sendError('URL not found', 404);
-                return;
-            }
+            if (!url) return response.sendError('URL not found', 404);
 
-            if (url.createdBy !== request.clientIp) {
-                response.sendError('Unauthorized', 401);
-                return;
-            }
+            if (url.createdBy !== request.clientIp) return response.sendError('Unauthorized', 401);
 
             await url.deleteOne();
             response.code(204).send();

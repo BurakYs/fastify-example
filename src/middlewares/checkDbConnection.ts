@@ -1,11 +1,8 @@
-import { Request, Response } from '@/interfaces';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import mongoose from 'mongoose';
 
-export default function checkDbConnection(request: Request, response: Response, done: () => void) {
-    if (mongoose.connection.readyState !== 1) {
-        response.sendError('Database connection not established', 500);
-        return;
-    }
+export default function checkDbConnection(_request: FastifyRequest, response: FastifyReply, done: () => void) {
+    if (mongoose.connection.readyState !== 1) return response.sendError('Database connection not established', 500);
 
     done();
 }

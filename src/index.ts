@@ -1,6 +1,7 @@
 import 'module-alias/register';
 import 'dotenv/config';
-import { Logger } from '@/helpers';
+
+import { Logger } from '@/utils';
 import Server from './server';
 
 global.logger = new Logger();
@@ -13,6 +14,7 @@ if (missingEnvVariables.length) {
 }
 
 if (process.argv.includes('--production')) process.env.NODE_ENV = 'production';
+
 
 const server = new Server();
 if (process.env.NODE_ENV !== 'test') server.create()
