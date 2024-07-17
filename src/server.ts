@@ -45,20 +45,17 @@ export default class Server {
         });
 
         this.server.setErrorHandler((error: ZodError & FastifyError, _request: FastifyRequest, response: FastifyReply) => {
-            if (error.code === 'FST_ERR_VALIDATION') {
-                response.sendError('Invalid Parameters', 400, {
+            if (error.code === 'FST_ERR_VALIDATION')
+                return response.sendError('Invalid Parameters', 400, {
                     validationFailures: error.issues.map((x) => ({
                         path: x.path.join('.'),
                         message: x.message
                     }))
                 });
-                return;
-            }
 
-            if (error.statusCode === 429) {
-                response.sendError('Too Many Requests', 429);
-                return;
-            }
+
+            if (error.statusCode === 429)
+                return response.sendError('Too Many Requests', 429);
 
             global.logger.error(error);
             response.sendError('Internal Server Error', 500);
