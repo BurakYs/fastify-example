@@ -5,9 +5,8 @@ const rateLimiter = fp(async (fastify) => {
     fastify.register(fastifyRateLimit, {
         global: true,
         max: 50,
-        ban: 2,
         timeWindow: 60000,
-        hook: 'preHandler',
+        hook: 'preParsing',
         allowList: ['127.0.0.1'],
         keyGenerator: (request) => request.clientIp,
         skipOnError: false,

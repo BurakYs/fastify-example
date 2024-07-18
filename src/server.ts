@@ -65,8 +65,8 @@ export default class Server {
             response.sendError('Not Found', 404);
         });
 
-        await this.registerRoutes();
         await this.registerPlugins();
+        await this.registerRoutes();
 
         const port = parseInt(process.env.PORT || '3000');
         if (!isTestEnvironment) await this.server.listen({ port, host: '0.0.0.0' });
