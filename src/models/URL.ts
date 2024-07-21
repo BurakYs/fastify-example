@@ -9,7 +9,7 @@ const URLSchema = new Schema({
         maxlength: 4096,
         validate: {
             validator: urlValidation,
-            message: (props: ValidatorProps) => props.reason?.message || ''
+            message: (props: ValidatorProps) => props.reason?.message || 'URL is not valid'
         }
     },
     slug: {
@@ -18,7 +18,7 @@ const URLSchema = new Schema({
         required: true,
         validate: {
             validator: slugValidation,
-            message: (props: ValidatorProps) => props.reason?.message || ''
+            message: (props: ValidatorProps) => props.reason?.message || 'Slug is not valid'
         }
     },
     createdBy: {
