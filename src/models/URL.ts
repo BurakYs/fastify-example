@@ -2,15 +2,7 @@ import mongoose, { Schema, type ValidatorProps } from 'mongoose';
 import urlValidation from '@/utils/validations/url/url';
 import slugValidation from '@/utils/validations/url/slug';
 
-type IURL = {
-    url: string;
-    slug: string;
-    createdBy: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const URLSchema = new Schema<IURL>({
+const URLSchema = new Schema({
     url: {
         type: String,
         required: true,
@@ -38,4 +30,4 @@ const URLSchema = new Schema<IURL>({
     versionKey: false
 });
 
-export default mongoose.model<IURL>('URL', URLSchema);
+export default mongoose.model('URL', URLSchema);
