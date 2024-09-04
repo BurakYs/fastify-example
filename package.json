@@ -8,7 +8,6 @@
     "dev": "node .",
     "start": "node . --production",
     "build": "tsc",
-    "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "check": "tsc --noEmit"
@@ -25,7 +24,6 @@
     "module-alias": "^2.2.3",
     "mongoose": "^8.4.0",
     "tslog": "^4.9.2",
-    "vitest": "^1.6.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

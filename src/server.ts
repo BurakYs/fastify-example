@@ -17,7 +17,6 @@ export default class Server {
 
     public async create() {
         const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
-        const isTestEnvironment = process.env.NODE_ENV === 'test';
 
         this.server
             .withTypeProvider<ZodTypeProvider>()
@@ -39,7 +38,7 @@ export default class Server {
         this.server.addHook('onResponse', async (request, response) => {
             const isIgnoredIp = ipAddressesToIgnore.includes(request.clientIp);
 
-            if (!isTestEnvironment && !isIgnoredIp) {
+            if (!isIgnoredIp) {
                 global.logger.logRequest(`${request.clientIp} - ${request.method} ${request.url} - ${response.statusCode}`);
             }
         });
@@ -69,7 +68,7 @@ export default class Server {
         await this.registerRoutes();
 
         const port = parseInt(process.env.PORT || '3000');
-        if (!isTestEnvironment) await this.server.listen({ port, host: '0.0.0.0' });
+        await this.server.listen({ port, host: '0.0.0.0' });
 
         await connectDatabase(process.env.MONGO_URI);
 
@@ -80,8 +79,7 @@ export default class Server {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
-        const dir = process.env.NODE_ENV === 'test' ? './src' : './dist';
-        const files = await glob(dir + '/routes/**/*.{js,ts}');
+        const files = await glob('./dist/routes/**/*.{js,ts}');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));
@@ -94,8 +92,7 @@ export default class Server {
     }
 
     private async registerPlugins() {
-        const dir = process.env.NODE_ENV === 'test' ? './src' : './dist';
-        const files = await glob(dir + '/plugins/**/*.{js,ts}');
+        const files = await glob('./dist/plugins/**/*.{js,ts}');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));

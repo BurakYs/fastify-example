@@ -26,12 +26,6 @@ cp .env.template .env
 # 6. Run the project:
 npm run dev
 ```
-   
-## 🧪 Run Tests
-Run the command below to run the tests:
-```bash
-npm test
-```
 
 ## 📝 License
 

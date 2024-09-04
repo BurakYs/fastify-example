@@ -15,9 +15,8 @@ if (missingEnvVariables.length) {
 
 if (process.argv.includes('--production')) process.env.NODE_ENV = 'production';
 
-
 const server = new Server();
-if (process.env.NODE_ENV !== 'test') server.create()
+server.create()
     .then((port) => global.logger.info(`Server listening on http://localhost:${port}`))
     .catch(async (err) => {
         global.logger.error(err);
