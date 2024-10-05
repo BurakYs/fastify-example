@@ -1,10 +1,8 @@
 import 'module-alias/register';
 import 'dotenv/config';
+import '@/utils/logger';
 
 import Server from './server';
-import Logger from '@/utils/logger';
-
-global.logger = Logger;
 
 const requiredEnvVariables = ['MONGO_URI'];
 const missingEnvVariables = requiredEnvVariables.filter((env) => !process.env[env]);
