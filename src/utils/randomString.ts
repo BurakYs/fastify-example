@@ -1,4 +1,4 @@
-export default function generateSlug(length: number = 8): string {
+export default function randomString(length: number = 8): string {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let slug = '';
 

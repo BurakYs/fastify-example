@@ -1,7 +1,7 @@
 import fp from 'fastify-plugin';
 import fastifyRateLimit, { type RateLimitPluginOptions } from '@fastify/rate-limit';
 
-const rateLimiter = fp(async (fastify) => {
+export default fp(async (fastify) => {
     fastify.register(fastifyRateLimit, {
         global: true,
         max: 50,
@@ -13,15 +13,13 @@ const rateLimiter = fp(async (fastify) => {
         addHeadersOnExceeding: {
             'x-ratelimit-limit': false,
             'x-ratelimit-remaining': false,
-            'x-ratelimit-reset': true,
-            'retry-after': false
+            'x-ratelimit-reset': true
         },
         addHeaders: {
             'x-ratelimit-limit': false,
             'x-ratelimit-remaining': true,
-            'x-ratelimit-reset': false
+            'x-ratelimit-reset': false,
+            'retry-after': false
         }
-    } as RateLimitPluginOptions);
+    } satisfies RateLimitPluginOptions);
 });
-
-export default rateLimiter;

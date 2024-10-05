@@ -5,15 +5,15 @@
   "author": "@BurakYs",
   "license": "ISC",
   "scripts": {
-    "dev": "node .",
-    "start": "node . --production",
+    "dev": "NODE_ENV=development nodemon .",
+    "start": "NODE_ENV=production node .",
     "build": "tsc",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fastify/rate-limit": "^10.1.1",
+    "@fastify/static": "^8.0.1",
     "@fastify/swagger": "^9.1.0",
     "@fastify/swagger-ui": "^5.0.1",
     "dotenv": "^16.4.5",
@@ -23,6 +23,9 @@
     "glob": "^11.0.0",
     "module-alias": "^2.2.3",
     "mongoose": "^8.7.0",
+    "nodemon": "^3.1.7",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.2.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
