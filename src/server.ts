@@ -91,6 +91,7 @@ export default class Server {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));
             let prefix = file.substring(8, file.length - 3);
             if (prefix.endsWith('/index')) prefix = prefix.substring(0, prefix.length - 6) || '/';
+            prefix = prefix.replace(/\[([^\]]+)]/g, ':$1');
 
             const route = await import(file);
             this.server.register(route.default, { prefix });

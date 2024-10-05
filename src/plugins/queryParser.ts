@@ -58,7 +58,7 @@ function unwrapSchema(schema: ZodTypeAny): ZodTypeAny {
         schema instanceof ZodDefault ||
         schema instanceof ZodOptional ||
         schema instanceof ZodNullable
-        ) {
+    ) {
         schema = schema._def.innerType;
     }
 
