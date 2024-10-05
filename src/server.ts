@@ -50,7 +50,6 @@ export default class Server {
                     }))
                 });
 
-
             if (error.statusCode === 429)
                 return response.sendError('Too Many Requests', 429);
 
@@ -85,7 +84,7 @@ export default class Server {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
-        const files = await glob('./dist/routes/**/*.{js,ts}');
+        const files = await glob('./dist/routes/**/*.js');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));
@@ -93,19 +92,19 @@ export default class Server {
             if (prefix.endsWith('/index')) prefix = prefix.substring(0, prefix.length - 6) || '/';
             prefix = prefix.replace(/\[([^\]]+)]/g, ':$1');
 
-            const route = await import(file);
-            this.server.register(route.default, { prefix });
+            const routeFile = await import(file);
+            this.server.register(routeFile.default, { prefix });
         }
     }
 
     private async registerPlugins() {
-        const files = await glob('./dist/plugins/**/*.{js,ts}');
+        const files = await glob('./dist/plugins/**/*.js');
 
         for (let file of files) {
             file = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
 
-            const plugin = await import(file);
-            this.server.register(plugin.default);
+            const pluginFile = await import(file);
+            this.server.register(pluginFile.default);
         }
     }
 }
