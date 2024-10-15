@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "esnext",
     "module": "commonjs",
     "outDir": "./dist",
     "baseUrl": "./src",
