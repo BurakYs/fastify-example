@@ -21,7 +21,6 @@ npm install
 cp .env.template .env
 
 # 5. Edit the configuration files under the `src/config` directory according to your needs.
-#    - `app.ts` - Edit production URL.
 
 # 6. Run the project:
 npm run dev

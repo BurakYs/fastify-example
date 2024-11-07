@@ -12,7 +12,7 @@ function unwrapSchema(schema: ZodTypeAny): ZodTypeAny {
     return schema;
 }
 
-const queryParser = fp(async (fastify) => {
+export default fp(async (fastify) => {
     fastify.addHook('preValidation', async (request) => {
         const routeSchema = request.routeOptions?.schema?.querystring;
 
@@ -66,5 +66,3 @@ const queryParser = fp(async (fastify) => {
         }
     });
 });
-
-export default queryParser;

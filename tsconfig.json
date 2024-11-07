@@ -2,7 +2,8 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
-    "target": "es6",
+    "skipLibCheck": true,
+    "target": "esnext",
     "module": "commonjs",
     "outDir": "./dist",
     "baseUrl": "./src",

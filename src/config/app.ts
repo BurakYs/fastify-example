@@ -1,10 +1,7 @@
-const { NODE_ENV = '', PORT = 3000 } = process.env;
-
-const isProduction = ['prod', 'production'].includes(NODE_ENV.toLowerCase());
+const { NODE_ENV, PORT = 3000 } = process.env;
 
 const appConfig = {
-    rootUrl: isProduction ? 'https://api.example.com' : `http://localhost:${PORT}`,
-    isProduction
+    rootUrl: NODE_ENV === 'production' ? 'https://api.example.com' : `http://localhost:${PORT}`
 };
 
 export default appConfig;

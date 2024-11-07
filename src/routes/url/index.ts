@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { generateSlug } from '@/utils';
-import { checkDbConnection } from '@/middlewares';
+import checkDbConnection from '@/middlewares/checkDbConnection';
+import generateRandomString from '@/utils/generateRandomString';
 import URL from '@/models/URL';
 import appConfig from '@/config/app';
 
@@ -38,7 +38,7 @@ export default async (fastify: FastifyInstance) => {
         preHandler: [checkDbConnection],
         handler: async (request: FastifyRequest, response: FastifyReply) => {
             const body = request.body as URLCreate;
-            const slug = generateSlug();
+            const slug = generateRandomString();
 
             await URL.create({
                 url: body.url,
