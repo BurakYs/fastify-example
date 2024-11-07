@@ -40,7 +40,10 @@ export default class Server {
             const isIgnoredIp = ipAddressesToIgnore.includes(request.clientIp);
 
             if (!isIgnoredIp) {
-                global.logger.logRequest(`${request.clientIp} - ${request.method} ${request.url} - ${response.statusCode}`);
+                const responseMs = response.elapsedTime.toFixed(2);
+                const responseSize = response.getHeader('content-length') ?? 0;
+
+                global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.clientIp} - ${responseSize} bytes in ${responseMs}ms`);
             }
         });
 
