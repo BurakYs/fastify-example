@@ -1,17 +1,16 @@
-import { type ILogObj, type ILogObjMeta, Logger } from 'tslog';
-import loggerSettings from '@/config/logger';
+import pino from 'pino';
 
-export default class CustomLogger extends Logger<ILogObj> {
-    constructor() {
-        super(loggerSettings);
+const logger = pino({
+    transport: {
+        target: 'pino-pretty',
+        options: {
+            ignore: 'pid,hostname',
+            translateTime: 'UTC:yyyy-mm-dd HH:MM:ss.l',
+            colorize: true
+        }
     }
+});
 
-    /**
-     * Logs an HTTP request.
-     * @param args - Multiple log attributes that should be logged.
-     * @return LogObject with meta property, when log level is >= minLevel
-     */
-    public logRequest(...args: unknown[]): ILogObj & ILogObjMeta | undefined {
-        return super.log(6, 'REQUEST', ...args);
-    }
-}
+global.logger = logger;
+
+export default logger;

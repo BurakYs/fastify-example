@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import sendZodError from '@/utils/validations/sendZodError';
+import sendZodError from '@/schemas/sendZodError';
 import urlValidation from '@/utils/validations/url/url';
 import slugValidation from '@/utils/validations/url/slug';
 
