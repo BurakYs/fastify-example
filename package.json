@@ -11,8 +11,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@fastify/rate-limit": "^10.1.1",
-    "@fastify/swagger": "^9.2.0",
+    "@fastify/rate-limit": "^10.2.1",
+    "@fastify/swagger": "^9.4.0",
     "@fastify/swagger-ui": "^5.1.0",
     "dotenv": "^16.4.5",
     "fastify": "^5.1.0",
@@ -20,20 +20,20 @@
     "fastify-type-provider-zod": "^4.0.2",
     "glob": "^11.0.0",
     "module-alias": "^2.2.3",
-    "mongoose": "^8.8.0",
+    "mongoose": "^8.8.3",
     "nodemon": "^3.1.7",
     "pino": "^9.5.0",
-    "pino-pretty": "^12.0.0",
+    "pino-pretty": "^13.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.14.0",
+    "@eslint/js": "^9.16.0",
     "@types/module-alias": "^2.0.4",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.10.1",
     "cross-env": "^7.0.3",
-    "eslint": "^9.14.0",
-    "globals": "^15.12.0",
-    "typescript-eslint": "^8.13.0"
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "typescript-eslint": "^8.17.0"
   },
   "_moduleAliases": {
     "@": "./dist"
