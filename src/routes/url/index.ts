@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import checkDbConnection from '@/middlewares/checkDbConnection';
 import generateRandomString from '@/utils/generateRandomString';
 import URL from '@/models/URL';
@@ -17,7 +17,7 @@ export default async (fastify: FastifyInstance) => {
             params: urlRedirect
         },
         preHandler: [checkDbConnection],
-        handler: async (request: FastifyRequest, response: FastifyReply) => {
+        handler: async (request, response) => {
             const params = request.params as URLRedirect;
 
             const url = await URL.findOne({ slug: params.slug });
@@ -36,7 +36,7 @@ export default async (fastify: FastifyInstance) => {
             body: urlCreate
         },
         preHandler: [checkDbConnection],
-        handler: async (request: FastifyRequest, response: FastifyReply) => {
+        handler: async (request, response) => {
             const body = request.body as URLCreate;
             const slug = generateRandomString();
 
@@ -62,7 +62,7 @@ export default async (fastify: FastifyInstance) => {
             params: urlDelete
         },
         preHandler: [checkDbConnection],
-        handler: async (request: FastifyRequest, response: FastifyReply) => {
+        handler: async (request, response) => {
             const params = request.params as URLDelete;
 
             const url = await URL.findOne({ slug: params.slug });

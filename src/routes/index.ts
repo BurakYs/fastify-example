@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({
@@ -7,7 +7,7 @@ export default async (fastify: FastifyInstance) => {
         schema: {
             hide: true
         },
-        handler: async (_request: FastifyRequest, response: FastifyReply) => {
+        handler: async (_request, response) => {
             response.code(200).send('OK');
         }
     });

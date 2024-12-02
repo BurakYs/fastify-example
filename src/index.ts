@@ -18,7 +18,7 @@ server.create()
         await server.server.close();
     });
 
-process.on('unhandledRejection', (error: unknown) => global.logger.error(error));
-process.on('uncaughtException', (error: unknown) => global.logger.error(error));
+process.on('unhandledRejection', (error) => global.logger.error(error));
+process.on('uncaughtException', (error) => global.logger.error(error));
 
 export default server;
