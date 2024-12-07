@@ -1,4 +1,4 @@
-import Fastify, { type FastifyError, type FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify';
+import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
 import type { ZodError } from 'zod';
 import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
@@ -47,7 +47,7 @@ export default class Server {
             }
         });
 
-        this.server.setErrorHandler((error: ZodError & FastifyError, _request: FastifyRequest, response: FastifyReply) => {
+        this.server.setErrorHandler((error: ZodError & FastifyError, _request, response) => {
             if (error.code === 'FST_ERR_VALIDATION')
                 return response.sendError('Invalid Parameters', 400, {
                     validationFailures: error.issues.map((x) => ({
@@ -64,7 +64,7 @@ export default class Server {
             response.sendError('Internal Server Error', 500);
         });
 
-        this.server.setNotFoundHandler((_request: FastifyRequest, response: FastifyReply) => {
+        this.server.setNotFoundHandler((_request, response) => {
             response.sendError('Not Found', 404);
         });
 
