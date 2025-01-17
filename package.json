@@ -20,7 +20,7 @@
     "fastify-type-provider-zod": "^4.0.2",
     "glob": "^11.0.0",
     "module-alias": "^2.2.3",
-    "mongoose": "^8.8.3",
+    "mongoose": "^8.9.5",
     "nodemon": "^3.1.7",
     "pino": "^9.5.0",
     "pino-pretty": "^13.0.0",
