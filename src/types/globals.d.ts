@@ -1,6 +1,6 @@
-import Logger from '@/utils/logger';
+import type { Logger } from 'pino';
 
 /* eslint-disable no-var */
 declare global {
-    var logger: typeof Logger;
+    var logger: Logger;
 }

@@ -79,6 +79,17 @@ export default class Server {
         return port;
     }
 
+    private async registerPlugins() {
+        const files = await glob('./dist/plugins/**/*.js');
+
+        for (const file of files) {
+            const filePath = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
+
+            const plugin = await import(filePath);
+            this.server.register(plugin.default);
+        }
+    }
+
     private async registerRoutes() {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
@@ -96,17 +107,6 @@ export default class Server {
 
             const route = await import(file);
             this.server.register(route.default, { prefix });
-        }
-    }
-
-    private async registerPlugins() {
-        const files = await glob('./dist/plugins/**/*.js');
-
-        for (const file of files) {
-            const filePath = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
-
-            const plugin = await import(filePath);
-            this.server.register(plugin.default);
         }
     }
 }
