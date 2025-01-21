@@ -1,5 +1,5 @@
 import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
-import type { ZodError } from 'zod';
+import type { ZodError, ZodIssue } from 'zod';
 import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import { glob } from 'glob';
@@ -49,8 +49,8 @@ export default class Server {
         this.server.setErrorHandler((error: ZodError & FastifyError, _request, response) => {
             if (error.code === 'FST_ERR_VALIDATION')
                 return response.sendError(400, 'Invalid Parameters', {
-                    validationFailures: error.issues.map((x) => ({
-                        path: x.path.join('.'),
+                    validationFailures: error.validation?.map((x) => ({
+                        path: (x.params.issue as ZodIssue)?.path?.join('.'),
                         message: x.message
                     }))
                 });
