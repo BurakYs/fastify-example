@@ -3,19 +3,26 @@ import 'dotenv/config';
 import '@/utils/logger';
 
 import Server from './server';
+import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
+import mongoose from 'mongoose';
 
-const requiredEnvVariables = ['MONGO_URI'];
-const missingEnvVariables = requiredEnvVariables.filter((env) => !process.env[env]);
-if (missingEnvVariables.length) {
-    global.logger.fatal(`Missing required environment variables: ${missingEnvVariables.join(', ')}`);
-    process.exit(1);
-}
+checkEnvironmentVariables();
 
 const server = new Server();
 server.create()
+    .then(() => {
+        ['SIGINT', 'SIGTERM'].forEach((signal) => {
+            process.on(signal, async () => {
+                await server.server.close();
+                await mongoose.disconnect();
+                process.exit(0);
+            });
+        });
+    })
     .catch(async (err) => {
         global.logger.error(err);
         await server.server.close();
+        process.exit(1);
     });
 
 process.on('unhandledRejection', (error) => global.logger.error(error));

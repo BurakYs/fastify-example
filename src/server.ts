@@ -7,7 +7,6 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import connectDatabase from '@/utils/connectDatabase';
 import ipMiddleware from '@/middlewares/ip';
-import mongoose from 'mongoose';
 
 export default class Server {
     public server: FastifyInstance;
@@ -24,11 +23,11 @@ export default class Server {
             .setValidatorCompiler(validatorCompiler)
             .setSerializerCompiler(serializerCompiler);
 
-        this.server.decorateReply('sendError', function (message, status, otherProperties) {
+        this.server.decorateReply('sendError', function (status, message, otherProperties) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
         });
 
-        this.server.decorateReply('sendSuccess', function (message, status, otherProperties) {
+        this.server.decorateReply('sendSuccess', function (status, message, otherProperties) {
             return this.code(status).send({ success: true, status, data: message, ...otherProperties });
         });
 
@@ -49,23 +48,22 @@ export default class Server {
 
         this.server.setErrorHandler((error: ZodError & FastifyError, _request, response) => {
             if (error.code === 'FST_ERR_VALIDATION')
-                return response.sendError('Invalid Parameters', 400, {
+                return response.sendError(400, 'Invalid Parameters', {
                     validationFailures: error.issues.map((x) => ({
                         path: x.path.join('.'),
                         message: x.message
                     }))
                 });
 
-
             if (error.statusCode === 429)
-                return response.sendError('Too Many Requests', 429);
+                return response.sendError(429, 'Too Many Requests');
 
             global.logger.error(error);
-            response.sendError('Internal Server Error', 500);
+            response.sendError(500, 'Internal Server Error');
         });
 
         this.server.setNotFoundHandler((_request, response) => {
-            response.sendError('Not Found', 404);
+            response.sendError(404, 'Not Found');
         });
 
         await this.registerPlugins();
@@ -73,17 +71,10 @@ export default class Server {
 
         const port = parseInt(process.env.PORT || '3000');
         await this.server.listen({ port, host: '0.0.0.0' });
+
         global.logger.info(`Server listening on http://localhost:${port}`);
 
         await connectDatabase(process.env.MONGO_URI);
-
-        ['SIGINT', 'SIGTERM'].forEach((signal) => {
-            process.on(signal, async () => {
-                await this.server.close();
-                await mongoose.disconnect();
-                process.exit(0);
-            });
-        });
 
         return port;
     }

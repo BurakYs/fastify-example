@@ -1,6 +1,6 @@
 import { FastifyReply } from 'fastify';
 
-type SendCustomResponse = (message: unknown, status: number, otherProperties?: Record<string, unknown>) => FastifyReply;
+type SendCustomResponse = (status: number, message: unknown, otherProperties?: Record<string, unknown>) => FastifyReply;
 
 declare module 'fastify' {
   interface FastifyRequest {

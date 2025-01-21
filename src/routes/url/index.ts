@@ -21,7 +21,7 @@ export default async (fastify: FastifyInstance) => {
             const params = request.params as URLRedirect;
 
             const url = await URL.findOne({ slug: params.slug });
-            if (!url) return response.sendError('URL not found', 404);
+            if (!url) return response.sendError(404, 'URL not found');
 
             response.code(301).redirect(url.url);
         }
@@ -46,10 +46,10 @@ export default async (fastify: FastifyInstance) => {
                 createdBy: request.clientIp
             });
 
-            response.sendSuccess({
+            response.sendSuccess(201, {
                 url: appConfig.rootUrl + '/url/' + slug,
                 slug
-            }, 201);
+            });
         }
     });
 
@@ -66,9 +66,9 @@ export default async (fastify: FastifyInstance) => {
             const params = request.params as URLDelete;
 
             const url = await URL.findOne({ slug: params.slug });
-            if (!url) return response.sendError('URL not found', 404);
+            if (!url) return response.sendError(404, 'URL not found');
 
-            if (url.createdBy !== request.clientIp) return response.sendError('Unauthorized', 401);
+            if (url.createdBy !== request.clientIp) return response.sendError(401, 'Unauthorized');
 
             await url.deleteOne();
             response.code(204).send();
