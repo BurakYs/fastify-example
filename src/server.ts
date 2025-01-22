@@ -103,7 +103,7 @@ export default class Server {
                 .slice(8, -3)
                 .replaceAll('__', ':');
 
-            if (prefix.endsWith('/index')) prefix = prefix.substring(0, -6) || '/';
+            if (prefix.endsWith('/index')) prefix = prefix.slice(0, -6) || '/';
 
             const route = await import(file);
             this.server.register(route.default, { prefix });
