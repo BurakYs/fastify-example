@@ -16,7 +16,7 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             params: urlRedirect
         },
-        preHandler: [checkDbConnection],
+        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const params = request.params as URLRedirect;
 
@@ -35,7 +35,7 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             body: urlCreate
         },
-        preHandler: [checkDbConnection],
+        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const body = request.body as URLCreate;
             const slug = generateRandomString();
@@ -61,7 +61,7 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             params: urlDelete
         },
-        preHandler: [checkDbConnection],
+        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const params = request.params as URLDelete;
 
