@@ -1,6 +1,6 @@
 import 'module-alias/register';
 import 'dotenv/config';
-import '@/utils/logger';
+import '@/utils/setupLogger';
 
 import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
 import mongoose from 'mongoose';
