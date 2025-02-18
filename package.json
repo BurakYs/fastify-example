@@ -1,41 +1,43 @@
 {
-  "name": "fastify-example",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "author": "@BurakYs",
-  "license": "ISC",
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon .",
-    "start": "cross-env NODE_ENV=production node .",
-    "build": "tsc",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@fastify/rate-limit": "^10.2.2",
-    "@fastify/swagger": "^9.4.2",
-    "@fastify/swagger-ui": "^5.2.1",
-    "dotenv": "^16.4.7",
-    "fastify": "^5.2.1",
-    "fastify-plugin": "^5.0.1",
-    "fastify-type-provider-zod": "^4.0.2",
-    "glob": "^11.0.1",
-    "module-alias": "^2.2.3",
-    "mongoose": "^8.9.5",
-    "nodemon": "^3.1.9",
-    "pino": "^9.6.0",
-    "pino-pretty": "^13.0.0",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.18.0",
-    "@types/module-alias": "^2.0.4",
-    "@types/node": "^22.10.7",
-    "cross-env": "^7.0.3",
-    "eslint": "^9.18.0",
-    "globals": "^15.14.0",
-    "typescript-eslint": "^8.21.0"
-  },
-  "_moduleAliases": {
-    "@": "./dist"
-  }
+    "name": "fastify-example",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "author": "@BurakYs",
+    "license": "ISC",
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development nodemon .",
+        "start": "cross-env NODE_ENV=production node .",
+        "build": "tsc",
+        "lint": "biome lint ./src",
+        "check": "tsc --noEmit && pnpm run lint"
+    },
+    "dependencies": {
+        "@fastify/rate-limit": "^10.2.2",
+        "@fastify/swagger": "^9.4.2",
+        "@fastify/swagger-ui": "^5.2.1",
+        "dotenv": "^16.4.7",
+        "fastify": "^5.2.1",
+        "fastify-plugin": "^5.0.1",
+        "fastify-type-provider-zod": "^4.0.2",
+        "glob": "^11.0.1",
+        "module-alias": "^2.2.3",
+        "mongoose": "^8.9.5",
+        "nodemon": "^3.1.9",
+        "pino": "^9.6.0",
+        "pino-pretty": "^13.0.0",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.9.4",
+        "@types/module-alias": "^2.0.4",
+        "@types/node": "^22.10.7",
+        "cross-env": "^7.0.3",
+        "globals": "^15.14.0"
+    },
+    "_moduleAliases": {
+        "@": "./dist"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": ["@biomejs/biome"]
+    }
 }

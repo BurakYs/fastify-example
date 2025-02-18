@@ -1,12 +1,12 @@
-import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
-import type { ZodError, ZodIssue } from 'zod';
-import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
-import { glob } from 'glob';
+import ipMiddleware from '@/middlewares/ip';
+import connectDatabase from '@/utils/connectDatabase';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import connectDatabase from '@/utils/connectDatabase';
-import ipMiddleware from '@/middlewares/ip';
+import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
+import { type ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { glob } from 'glob';
+import type { ZodError, ZodIssue } from 'zod';
 
 export default class Server {
     public server: FastifyInstance;
@@ -18,10 +18,7 @@ export default class Server {
     public async create() {
         const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
 
-        this.server
-            .withTypeProvider<ZodTypeProvider>()
-            .setValidatorCompiler(validatorCompiler)
-            .setSerializerCompiler(serializerCompiler);
+        this.server.withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
 
         this.server.decorateReply('sendError', function (status, message, otherProperties) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
@@ -55,8 +52,7 @@ export default class Server {
                     }))
                 });
 
-            if (error.statusCode === 429)
-                return response.sendError(429, 'Too Many Requests');
+            if (error.statusCode === 429) return response.sendError(429, 'Too Many Requests');
 
             global.logger.error(error);
             response.sendError(500, 'Internal Server Error');
@@ -69,7 +65,7 @@ export default class Server {
         await this.registerPlugins();
         await this.registerRoutes();
 
-        const port = parseInt(process.env.PORT || '3000');
+        const port = Number.parseInt(process.env.PORT || '3000');
         await this.server.listen({ port, host: '0.0.0.0' });
 
         global.logger.info(`Server listening on http://localhost:${port}`);
@@ -83,7 +79,7 @@ export default class Server {
         const files = await glob('./dist/plugins/**/*.js');
 
         for (const file of files) {
-            const filePath = './' + file.replace(/\\/g, '/').substring(file.indexOf('plugins'));
+            const filePath = `./${file.replace(/\\/g, '/').substring(file.indexOf('plugins'))}`;
 
             const plugin = await import(filePath);
             this.server.register(plugin.default);
@@ -97,11 +93,9 @@ export default class Server {
         const files = await glob('./dist/routes/**/*.js');
 
         for (let file of files) {
-            file = './' + file.replace(/\\/g, '/').substring(file.indexOf('routes'));
+            file = `./${file.replace(/\\/g, '/').substring(file.indexOf('routes'))}`;
 
-            let prefix = file
-                .slice(8, -3)
-                .replaceAll('__', ':');
+            let prefix = file.slice(8, -3).replaceAll('__', ':');
 
             if (prefix.endsWith('/index')) prefix = prefix.slice(0, -6) || '/';
 

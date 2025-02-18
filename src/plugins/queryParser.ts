@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-import { z, ZodDefault, ZodNullable, ZodOptional, ZodTypeAny } from 'zod';
+import { ZodDefault, ZodNullable, ZodOptional, type ZodTypeAny, z } from 'zod';
 
 export default fp(async (fastify) => {
     fastify.addHook('preValidation', async (request) => {
@@ -31,11 +31,7 @@ export default fp(async (fastify) => {
 });
 
 function unwrapSchema(schema: ZodTypeAny): ZodTypeAny {
-    while (
-        schema instanceof ZodDefault ||
-        schema instanceof ZodOptional ||
-        schema instanceof ZodNullable
-    ) {
+    while (schema instanceof ZodDefault || schema instanceof ZodOptional || schema instanceof ZodNullable) {
         schema = schema._def.innerType;
     }
     return schema;
@@ -48,14 +44,12 @@ function validateValue(paramSchema: ZodTypeAny, value: unknown): unknown {
 
     if (paramSchema instanceof z.ZodNumber) {
         const number = Number(value);
-        if (!isNaN(number)) value = number;
+        if (!Number.isNaN(number)) value = number;
     }
 
     if (paramSchema instanceof z.ZodArray) {
         if (typeof value === 'string') {
-            value = value
-                .split(',')
-                .map(item => validateValue(unwrapSchema(paramSchema._def.type), item));
+            value = value.split(',').map((item) => validateValue(unwrapSchema(paramSchema._def.type), item));
         }
     }
 

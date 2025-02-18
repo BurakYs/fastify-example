@@ -1,8 +1,8 @@
-import type { FastifyInstance } from 'fastify';
-import checkDbConnection from '@/middlewares/checkDbConnection';
-import generateRandomString from '@/utils/generateRandomString';
-import URL from '@/models/URL';
 import appConfig from '@/config/app';
+import checkDbConnection from '@/middlewares/checkDbConnection';
+import URL from '@/models/URL';
+import generateRandomString from '@/utils/generateRandomString';
+import type { FastifyInstance } from 'fastify';
 
 import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
 import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
@@ -47,7 +47,7 @@ export default async (fastify: FastifyInstance) => {
             });
 
             response.sendSuccess(201, {
-                url: appConfig.rootUrl + '/url/' + slug,
+                url: `${appConfig.rootUrl}/url/${slug}`,
                 slug
             });
         }

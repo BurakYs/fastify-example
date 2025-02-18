@@ -1,8 +1,8 @@
+import fs from 'node:fs';
+import appConfig from '@/config/app';
 import type { SwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 import { jsonSchemaTransform } from 'fastify-type-provider-zod';
-import fs from 'fs';
-import appConfig from '@/config/app';
 
 export const swaggerConfig: SwaggerOptions = {
     openapi: {
@@ -17,9 +17,7 @@ export const swaggerConfig: SwaggerOptions = {
                 url: appConfig.rootUrl
             }
         ],
-        tags: [
-            { name: 'URL', description: 'URL shortener endpoints' }
-        ]
+        tags: [{ name: 'URL', description: 'URL shortener endpoints' }]
     },
     transform: jsonSchemaTransform
 };
@@ -33,16 +31,20 @@ export const swaggerUIConfig: FastifySwaggerUiOptions = {
     },
     theme: {
         title: 'URL Shortener API Documentation',
-        css: [{
-            filename: 'swagger.css',
-            content: fs.readFileSync('./public/swagger.min.css', 'utf-8')
-        }],
-        favicon: [{
-            filename: 'favicon.ico',
-            rel: 'icon',
-            type: 'image/x-icon',
-            sizes: '16x16',
-            content: fs.readFileSync('./public/favicon.ico')
-        }]
+        css: [
+            {
+                filename: 'swagger.css',
+                content: fs.readFileSync('./public/swagger.min.css', 'utf-8')
+            }
+        ],
+        favicon: [
+            {
+                filename: 'favicon.ico',
+                rel: 'icon',
+                type: 'image/x-icon',
+                sizes: '16x16',
+                content: fs.readFileSync('./public/favicon.ico')
+            }
+        ]
     }
 };

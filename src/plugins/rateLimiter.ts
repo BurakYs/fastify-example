@@ -1,5 +1,5 @@
-import fp from 'fastify-plugin';
 import fastifyRateLimit, { type RateLimitPluginOptions } from '@fastify/rate-limit';
+import fp from 'fastify-plugin';
 
 export default fp(async (fastify) => {
     fastify.register(fastifyRateLimit, {

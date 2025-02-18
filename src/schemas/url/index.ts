@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import urlValidation from '@/utils/validations/url/url';
 import slugValidation from '@/utils/validations/url/slug';
+import urlValidation from '@/utils/validations/url/url';
+import { z } from 'zod';
 
 export const urlCreate = z.object({
     url: urlValidation

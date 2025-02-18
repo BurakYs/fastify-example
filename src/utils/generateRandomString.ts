@@ -1,4 +1,4 @@
-export default function generateRandomString(length: number = 8) {
+export default function generateRandomString(length = 8) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
 
