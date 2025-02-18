@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "dist/index.js",
     "author": "@BurakYs",
-    "license": "ISC",
+    "license": "MIT",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon .",
         "start": "cross-env NODE_ENV=production node .",
@@ -37,8 +37,6 @@
         "@": "./dist"
     },
     "pnpm": {
-        "onlyBuiltDependencies": [
-            "@biomejs/biome"
-        ]
+        "onlyBuiltDependencies": ["@biomejs/biome"]
     }
 }
