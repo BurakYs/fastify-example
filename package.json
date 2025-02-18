@@ -31,8 +31,7 @@
         "@biomejs/biome": "1.9.4",
         "@types/module-alias": "^2.0.4",
         "@types/node": "^22.13.4",
-        "cross-env": "^7.0.3",
-        "globals": "^15.15.0"
+        "cross-env": "^7.0.3"
     },
     "_moduleAliases": {
         "@": "./dist"
