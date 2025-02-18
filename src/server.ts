@@ -50,7 +50,7 @@ export default class Server {
             if (error.code === 'FST_ERR_VALIDATION')
                 return response.sendError(400, 'Invalid Parameters', {
                     validationFailures: error.validation?.map((x) => ({
-                        path: (x.params.issue as ZodIssue)?.path?.join('.'),
+                        path: (x.params.issue as ZodIssue)?.path?.join('.') || null,
                         message: x.message
                     }))
                 });

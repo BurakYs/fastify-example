@@ -1,6 +1,6 @@
-import mongoose, { Schema, type ValidatorProps } from 'mongoose';
-import urlValidation from '@/utils/validations/url/url';
-import slugValidation from '@/utils/validations/url/slug';
+import mongoose, { Schema } from 'mongoose';
+import { urlValidationFunction } from '@/utils/validations/url/url';
+import { slugValidationFunction } from '@/utils/validations/url/slug';
 
 const URLSchema = new Schema({
     url: {
@@ -8,8 +8,7 @@ const URLSchema = new Schema({
         required: true,
         maxlength: 4096,
         validate: {
-            validator: urlValidation,
-            message: (props: ValidatorProps) => props.reason?.message || 'URL is not valid'
+            validator: urlValidationFunction
         }
     },
     slug: {
@@ -17,8 +16,7 @@ const URLSchema = new Schema({
         unique: true,
         required: true,
         validate: {
-            validator: slugValidation,
-            message: (props: ValidatorProps) => props.reason?.message || 'Slug is not valid'
+            validator: slugValidationFunction
         }
     },
     createdBy: {
