@@ -1,6 +1,7 @@
 {
   "watch": [
-    "src"
+    "src",
+    ".env"
   ],
   "ext": "ts",
   "exec": "tsc && node ."
