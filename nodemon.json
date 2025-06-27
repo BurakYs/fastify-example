@@ -1,8 +1,5 @@
 {
-  "watch": [
-    "src",
-    ".env"
-  ],
-  "ext": "ts",
-  "exec": "tsc && node ."
+    "watch": ["src", ".env"],
+    "ext": "ts",
+    "exec": "pnpm dev"
 }

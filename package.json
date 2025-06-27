@@ -1,15 +1,16 @@
 {
     "name": "fastify-example",
     "version": "1.0.0",
-    "main": "dist/index.js",
+    "main": "src/index.ts",
     "author": "@BurakYs",
     "license": "MIT",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon .",
-        "start": "cross-env NODE_ENV=production node .",
+        "dev": "cross-env NODE_ENV=development node --loader ./custom-loader.js --no-warnings .",
+        "dev:watch": "cross-env NODE_ENV=development nodemon",
+        "start": "cross-env NODE_ENV=production node --loader ./custom-loader.js --no-warnings .",
         "build": "tsc",
-        "lint": "biome lint ./src",
-        "check": "tsc --noEmit && pnpm run lint"
+        "lint": "pnpm exec biome lint ./src",
+        "check": "pnpm exec tsc --noEmit && pnpm run lint"
     },
     "dependencies": {
         "@fastify/rate-limit": "^10.3.0",
@@ -20,7 +21,6 @@
         "fastify-plugin": "^5.0.1",
         "fastify-type-provider-zod": "^5.0.1",
         "glob": "^11.0.3",
-        "module-alias": "^2.2.3",
         "mongoose": "^8.16.1",
         "nodemon": "^3.1.10",
         "pino": "^9.7.0",
@@ -29,11 +29,8 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.0.6",
-        "@types/module-alias": "^2.0.4",
         "@types/node": "^24.0.4",
-        "cross-env": "^7.0.3"
-    },
-    "_moduleAliases": {
-        "@": "./dist"
+        "cross-env": "^7.0.3",
+        "tsconfig-paths": "^4.2.0"
     }
 }
