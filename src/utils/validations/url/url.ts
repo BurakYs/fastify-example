@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export function urlValidationFunction(url: string) {
-    const urlRegex = /https:\/\/[a-z0-9-]+(.[a-z0-9-]+)+([\/?].*)?$/;
+    const urlRegex = /https:\/\/[a-z0-9-]+(.[a-z0-9-]+)+([/?].*)?$/;
     return urlRegex.test(url);
 }
 
