@@ -16,9 +16,24 @@ export default class Server {
     }
 
     public async create() {
-        const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
-
         this.server.withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
+
+        await this.registerHooks();
+        await this.registerPlugins();
+        await this.registerRoutes();
+
+        const port = Number.parseInt(process.env.PORT || '3000');
+        await this.server.listen({ port, host: '0.0.0.0' });
+
+        global.logger.info(`Server listening on http://localhost:${port}`);
+
+        await connectDatabase(process.env.MONGO_URI);
+
+        return port;
+    }
+
+    private async registerHooks() {
+        const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
 
         this.server.decorateReply('sendError', function (status, message, otherProperties) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
@@ -61,18 +76,6 @@ export default class Server {
         this.server.setNotFoundHandler((_request, response) => {
             response.sendError(404, 'Not Found');
         });
-
-        await this.registerPlugins();
-        await this.registerRoutes();
-
-        const port = Number.parseInt(process.env.PORT || '3000');
-        await this.server.listen({ port, host: '0.0.0.0' });
-
-        global.logger.info(`Server listening on http://localhost:${port}`);
-
-        await connectDatabase(process.env.MONGO_URI);
-
-        return port;
     }
 
     private async registerPlugins() {
