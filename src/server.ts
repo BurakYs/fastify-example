@@ -32,8 +32,6 @@ export default class Server {
     }
 
     private async registerHooks() {
-        const ipAddressesToIgnore = process.env.LOG_IGNORE_IPS?.split(',') || [];
-
         this.server.decorateReply('sendError', function (status, message, otherProperties) {
             return this.code(status).send({ success: false, status, error: message, ...otherProperties });
         });
@@ -43,14 +41,10 @@ export default class Server {
         });
 
         this.server.addHook('onResponse', async (request, response) => {
-            const isIgnoredIp = ipAddressesToIgnore.includes(request.ip);
+            const responseMs = response.elapsedTime.toFixed(2);
+            const responseSize = response.getHeader('content-length') ?? 0;
 
-            if (!isIgnoredIp) {
-                const responseMs = response.elapsedTime.toFixed(2);
-                const responseSize = response.getHeader('content-length') ?? 0;
-
-                global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
-            }
+            global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
         });
 
         this.server.setErrorHandler((error: ZodError & FastifyError, _request, response) => {

@@ -18,7 +18,7 @@ cd fastify-example
 npm install
 
 # 4. Configure the environment variables:
-cp .env.template .env
+cp .env.example .env
 
 # 5. Edit the configuration files under the `src/config` directory according to your needs.
 

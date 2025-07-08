@@ -1,10 +1,15 @@
-import 'dotenv/config';
-import '@/utils/setupLogger';
-
+import dotenv from 'dotenv';
+import setupLogger from '@/utils/setupLogger';
 import mongoose from 'mongoose';
 import Server from '@/server';
 import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
 
+dotenv.config({
+    path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
+    quiet: true
+});
+
+setupLogger();
 checkEnvironmentVariables();
 
 const server = new Server();
