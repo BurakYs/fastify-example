@@ -68,7 +68,7 @@ export default class Server {
     }
 
     private async registerPlugins() {
-        const files = await glob('./dist/plugins/**/*.js');
+        const files = await glob('./src/plugins/**/*.ts');
 
         for (const file of files) {
             const filePath = `./${file.replace(/\\/g, '/').substring(file.indexOf('plugins'))}`;
@@ -82,11 +82,10 @@ export default class Server {
         this.server.register(fastifySwagger, swaggerConfig);
         this.server.register(fastifySwaggerUi, swaggerUIConfig);
 
-        const files = await glob('./dist/routes/**/*.js');
+        const files = await glob('./src/routes/**/*.ts');
 
         for (let file of files) {
             file = `./${file.replace(/\\/g, '/').substring(file.indexOf('routes'))}`;
-
             let prefix = file.slice(8, -3).replaceAll('__', ':');
 
             if (prefix.endsWith('/index')) prefix = prefix.slice(0, -6) || '/';

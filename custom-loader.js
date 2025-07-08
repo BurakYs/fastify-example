@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const srcRoot = path.resolve(process.cwd(), 'src');
-const extensions = ['', '.ts', '.js', '/index.ts', '/index.js'];
+const extensions = ['.ts', '.js', '/index.ts', '/index.js'];
 
 function resolvePath(basePath) {
     for (const ext of extensions) {
