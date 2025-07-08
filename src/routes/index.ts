@@ -8,7 +8,7 @@ export default createRouter(async (fastify) => {
             hide: true
         },
         handler: async (_request, response) => {
-            response.sendSuccess(200, 'OK');
+            response.send('OK');
         }
     });
 });

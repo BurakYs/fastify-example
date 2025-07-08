@@ -1,10 +1,8 @@
-import type { FastifyReply } from 'fastify';
-
-type SendCustomResponse = (status: number, message: unknown, otherProperties?: Record<string, unknown>) => FastifyReply;
+export {};
 
 declare module 'fastify' {
     interface FastifyReply {
-        sendSuccess: SendCustomResponse;
-        sendError: SendCustomResponse;
+        sendError: (status: number, message: unknown, otherProperties?: Record<string, unknown>) => FastifyReply;
+        sendSuccess: (status: number, data: unknown) => FastifyReply;
     }
 }

@@ -26,16 +26,16 @@ export default class Server {
 
     private async registerHooks() {
         this.server.decorateReply('sendError', function (status, message, otherProperties) {
-            return this.code(status).send({ success: false, status, error: message, ...otherProperties });
+            return this.code(status).send({ error: message, ...otherProperties });
         });
 
-        this.server.decorateReply('sendSuccess', function (status, message, otherProperties) {
-            return this.code(status).send({ success: true, status, data: message, ...otherProperties });
+        this.server.decorateReply('sendSuccess', function (status, data) {
+            return this.code(status).send(data);
         });
 
         this.server.addHook('onResponse', async (request, response) => {
             const responseMs = response.elapsedTime.toFixed(2);
-            const responseSize = response.getHeader('content-length') ?? 0;
+            const responseSize = response.getHeader('Content-Length') ?? 0;
 
             global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
         });

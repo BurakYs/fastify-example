@@ -25,7 +25,7 @@ export default createRouter(async (fastify) => {
 
     fastify.route({
         method: 'POST',
-        url: '/shorten',
+        url: '/',
         schema: {
             summary: 'Shorten a URL',
             tags: ['URL'],
