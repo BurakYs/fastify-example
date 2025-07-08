@@ -1,7 +1,7 @@
-const { NODE_ENV, PORT = 3000 } = process.env;
+const env = process.env;
 
 const appConfig = {
-    rootUrl: NODE_ENV === 'production' ? 'https://api.example.com' : `http://localhost:${PORT}`
+    rootUrl: env.NODE_ENV === 'production' ? env.BASE_URL : `http://localhost:${env.PORT}`
 };
 
 export default appConfig;
