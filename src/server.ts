@@ -1,5 +1,4 @@
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
-import ipMiddleware from '@/middlewares/ip';
 import connectDatabase from '@/utils/connectDatabase';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
@@ -23,7 +22,7 @@ export default class Server {
         await this.registerRoutes();
 
         const port = Number.parseInt(process.env.PORT || '3000');
-        await this.server.listen({ port, host: '0.0.0.0' });
+        await this.server.listen({ port });
 
         global.logger.info(`Server listening on http://localhost:${port}`);
 
@@ -43,18 +42,14 @@ export default class Server {
             return this.code(status).send({ success: true, status, data: message, ...otherProperties });
         });
 
-        this.server.addHook('onRequest', async (request) => {
-            ipMiddleware(request);
-        });
-
         this.server.addHook('onResponse', async (request, response) => {
-            const isIgnoredIp = ipAddressesToIgnore.includes(request.clientIp);
+            const isIgnoredIp = ipAddressesToIgnore.includes(request.ip);
 
             if (!isIgnoredIp) {
                 const responseMs = response.elapsedTime.toFixed(2);
                 const responseSize = response.getHeader('content-length') ?? 0;
 
-                global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.clientIp} - ${responseSize} bytes in ${responseMs}ms`);
+                global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
             }
         });
 

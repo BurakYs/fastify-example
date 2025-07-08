@@ -1,5 +1,4 @@
 import appConfig from '@/config/app';
-import checkDbConnection from '@/middlewares/checkDbConnection';
 import URL from '@/models/URL';
 import generateRandomString from '@/utils/generateRandomString';
 import type { FastifyInstance } from 'fastify';
@@ -16,7 +15,6 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             params: urlRedirect
         },
-        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const params = request.params as URLRedirect;
 
@@ -35,7 +33,6 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             body: urlCreate
         },
-        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const body = request.body as URLCreate;
             const slug = generateRandomString();
@@ -43,7 +40,7 @@ export default async (fastify: FastifyInstance) => {
             await URL.create({
                 url: body.url,
                 slug,
-                createdBy: request.clientIp
+                createdBy: request.ip
             });
 
             response.sendSuccess(201, {
@@ -61,14 +58,13 @@ export default async (fastify: FastifyInstance) => {
             tags: ['URL'],
             params: urlDelete
         },
-        preValidation: [checkDbConnection],
         handler: async (request, response) => {
             const params = request.params as URLDelete;
 
             const url = await URL.findOne({ slug: params.slug });
             if (!url) return response.sendError(404, 'URL not found');
 
-            if (url.createdBy !== request.clientIp) return response.sendError(401, 'Unauthorized');
+            if (url.createdBy !== request.ip) return response.sendError(401, 'Unauthorized');
 
             await url.deleteOne();
             response.code(204).send();
