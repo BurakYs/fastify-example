@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
-import setupLogger from '@/utils/setupLogger';
 import mongoose from 'mongoose';
 import Server from '@/server';
 import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
+import setupLogger from '@/utils/setupLogger';
 
 dotenv.config({
     path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env',

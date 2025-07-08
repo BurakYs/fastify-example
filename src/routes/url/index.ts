@@ -1,8 +1,8 @@
 import appConfig from '@/config/app';
 import URL from '@/models/URL';
 import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
-import generateRandomString from '@/utils/generateRandomString';
 import createRouter from '@/utils/createRouter';
+import generateRandomString from '@/utils/generateRandomString';
 
 export default createRouter(async (fastify) => {
     fastify.route({
