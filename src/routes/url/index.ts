@@ -1,11 +1,10 @@
-import type { FastifyInstance } from 'fastify';
 import appConfig from '@/config/app';
 import URL from '@/models/URL';
-import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
 import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 import generateRandomString from '@/utils/generateRandomString';
+import createRouter from '@/utils/createRouter';
 
-export default async (fastify: FastifyInstance) => {
+export default createRouter(async (fastify) => {
     fastify.route({
         method: 'GET',
         url: '/:slug',
@@ -15,7 +14,7 @@ export default async (fastify: FastifyInstance) => {
             params: urlRedirect
         },
         handler: async (request, response) => {
-            const params = request.params as URLRedirect;
+            const { params } = request;
 
             const url = await URL.findOne({ slug: params.slug });
             if (!url) return response.sendError(404, 'URL not found');
@@ -33,7 +32,7 @@ export default async (fastify: FastifyInstance) => {
             body: urlCreate
         },
         handler: async (request, response) => {
-            const body = request.body as URLCreate;
+            const { body } = request;
             const slug = generateRandomString();
 
             await URL.create({
@@ -58,7 +57,7 @@ export default async (fastify: FastifyInstance) => {
             params: urlDelete
         },
         handler: async (request, response) => {
-            const params = request.params as URLDelete;
+            const { params } = request;
 
             const url = await URL.findOne({ slug: params.slug });
             if (!url) return response.sendError(404, 'URL not found');
@@ -69,4 +68,4 @@ export default async (fastify: FastifyInstance) => {
             response.code(204).send();
         }
     });
-};
+});

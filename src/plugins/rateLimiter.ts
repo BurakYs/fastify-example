@@ -6,7 +6,7 @@ export default fp(async (fastify) => {
         global: true,
         max: 50,
         timeWindow: 60000,
-        hook: 'preParsing',
+        hook: 'onRequest',
         keyGenerator: (request) => request.ip,
         skipOnError: false
     } satisfies RateLimitPluginOptions);

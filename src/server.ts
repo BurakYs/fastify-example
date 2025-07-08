@@ -1,22 +1,15 @@
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
-import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
+import Fastify from 'fastify';
+import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { glob } from 'glob';
-import type { ZodError, ZodIssue } from 'zod';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 import connectDatabase from '@/utils/connectDatabase';
 
 export default class Server {
-    public server: FastifyInstance;
-
-    constructor() {
-        this.server = Fastify();
-    }
+    public server = Fastify().withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
 
     public async create() {
-        this.server.withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
-
         await this.registerHooks();
         await this.registerPlugins();
         await this.registerRoutes();
@@ -47,11 +40,11 @@ export default class Server {
             global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
         });
 
-        this.server.setErrorHandler((error: ZodError & FastifyError, _request, response) => {
-            if (error.code === 'FST_ERR_VALIDATION')
+        this.server.setErrorHandler((error, _request, response) => {
+            if (hasZodFastifySchemaValidationErrors(error))
                 return response.sendError(400, 'Invalid Parameters', {
                     validationFailures: error.validation?.map((x) => ({
-                        path: (x.params.issue as ZodIssue)?.path?.join('.') || null,
+                        path: x.instancePath.substring(1).replaceAll('/', '.'),
                         message: x.message
                     }))
                 });

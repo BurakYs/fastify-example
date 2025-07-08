@@ -1,6 +1,6 @@
-import type { FastifyInstance } from 'fastify';
+import createRouter from '@/utils/createRouter';
 
-export default async (fastify: FastifyInstance) => {
+export default createRouter(async (fastify) => {
     fastify.route({
         method: 'GET',
         url: '/',
@@ -8,7 +8,7 @@ export default async (fastify: FastifyInstance) => {
             hide: true
         },
         handler: async (_request, response) => {
-            response.code(200).send('OK');
+            response.sendSuccess(200, 'OK');
         }
     });
-};
+});
