@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import '@/utils/setupLogger';
 
-import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
 import mongoose from 'mongoose';
 import Server from '@/server';
+import checkEnvironmentVariables from '@/utils/checkEnvironmentVariables';
 
 checkEnvironmentVariables();
 

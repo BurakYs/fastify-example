@@ -1,10 +1,9 @@
+import type { FastifyInstance } from 'fastify';
 import appConfig from '@/config/app';
 import URL from '@/models/URL';
-import generateRandomString from '@/utils/generateRandomString';
-import type { FastifyInstance } from 'fastify';
-
 import type { URLCreate, URLDelete, URLRedirect } from '@/schemas/url';
 import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
+import generateRandomString from '@/utils/generateRandomString';
 
 export default async (fastify: FastifyInstance) => {
     fastify.route({

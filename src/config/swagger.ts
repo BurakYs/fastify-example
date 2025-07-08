@@ -1,8 +1,8 @@
 import fs from 'node:fs';
-import appConfig from '@/config/app';
 import type { SwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 import { jsonSchemaTransform } from 'fastify-type-provider-zod';
+import appConfig from '@/config/app';
 
 export const swaggerConfig: SwaggerOptions = {
     openapi: {

@@ -1,11 +1,11 @@
-import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
-import connectDatabase from '@/utils/connectDatabase';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
-import { type ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
 import { glob } from 'glob';
 import type { ZodError, ZodIssue } from 'zod';
+import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
+import connectDatabase from '@/utils/connectDatabase';
 
 export default class Server {
     public server: FastifyInstance;

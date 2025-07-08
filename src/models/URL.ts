@@ -1,6 +1,6 @@
+import mongoose, { Schema } from 'mongoose';
 import { slugValidationFunction } from '@/utils/validations/url/slug';
 import { urlValidationFunction } from '@/utils/validations/url/url';
-import mongoose, { Schema } from 'mongoose';
 
 const URLSchema = new Schema(
     {
