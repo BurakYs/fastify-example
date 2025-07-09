@@ -3,15 +3,17 @@
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
         "target": "esnext",
-        "module": "commonjs",
+        "module": "nodenext",
+        "moduleResolution": "node",
         "outDir": "./dist",
         "baseUrl": "./src",
         "rootDir": "./src",
         "types": ["node"],
         "typeRoots": ["node_modules/@types", "src/types"],
         "paths": {
-            "@/*": ["./*"]
+            "@/*": ["*"]
         }
     }
 }

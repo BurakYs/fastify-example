@@ -1,4 +1,4 @@
-import fastifyRateLimit, { type RateLimitPluginOptions } from '@fastify/rate-limit';
+import fastifyRateLimit from '@fastify/rate-limit';
 import fp from 'fastify-plugin';
 
 export default fp(async (fastify) => {
@@ -7,7 +7,6 @@ export default fp(async (fastify) => {
         max: 50,
         timeWindow: 60000,
         hook: 'onRequest',
-        keyGenerator: (request) => request.ip,
         skipOnError: false
-    } satisfies RateLimitPluginOptions);
+    });
 });
