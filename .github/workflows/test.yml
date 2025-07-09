@@ -1,9 +1,9 @@
-name: Test Workflow
+name: Test
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
