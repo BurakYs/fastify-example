@@ -5,7 +5,7 @@ describe('URL Routes', () => {
     const location = 'https://example.com';
     let createdSlug = '';
 
-    it('should shorten URL (POST /)', async () => {
+    it('should shorten URL', async () => {
         const response = await fastify.inject({
             method: 'POST',
             url: '/url',
@@ -35,7 +35,7 @@ describe('URL Routes', () => {
         expect(json.validationFailures[0].path).toBe('url');
     });
 
-    it('should redirect to original URL (GET /:slug)', async () => {
+    it('should redirect to original URL', async () => {
         const response = await fastify.inject({
             method: 'GET',
             url: `/url/${createdSlug}`
@@ -54,7 +54,7 @@ describe('URL Routes', () => {
         expect(response.statusCode).toBe(404);
     });
 
-    it('should return 401 on DELETE if IP is different', async () => {
+    it('should return 401 when a different user tries to delete the URL', async () => {
         const response = await fastify.inject({
             method: 'DELETE',
             url: `/url/${createdSlug}`,
@@ -64,7 +64,7 @@ describe('URL Routes', () => {
         expect(response.statusCode).toBe(401);
     });
 
-    it('should delete the URL with correct IP (DELETE /:slug)', async () => {
+    it('should allow the original user to delete the URL', async () => {
         const response = await fastify.inject({
             method: 'DELETE',
             url: `/url/${createdSlug}`
