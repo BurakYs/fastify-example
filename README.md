@@ -1,31 +1,40 @@
 <img src="https://raw.githubusercontent.com/fastify/graphics/master/fastify-1000px-square-01.png" align="left" width="150" height="150" alt="Fastify Logo">
 
-# 🚀 Fastify Rest API
+# 🚀 Fastify Boilerplate
 
-A simple example of a REST API using Fastify, TypeScript, Zod and Swagger.
+A simple boilerplate for a REST API using Fastify, TypeScript, Zod, and Swagger.
 
 <br />
 
-## 🏠 Run Locally
-```bash 
-# 1. Clone the repository:
+### ⚙️ Features
+
+- Database: [MongoDB](https://www.mongodb.com) with [Mongoose](https://mongoosejs.com)
+- Validation: [Zod](https://zod.dev)
+- Logging: [Pino](https://getpino.io)
+- Linting & Formatting: Biome - [Biome](https://biomejs.dev)
+- API Documentation: [Swagger](https://swagger.io)
+- Testing: [Vitest](https://vitest.dev)
+
+## 🛠️ Commands
+
+- `pnpm start`: Start the production server
+- `pnpm dev`: Start the development server
+- `pnpm dev:watch`: Start the development server with file watching
+- `pnpm typecheck`: Run type checking
+- `pnpm lint`: Run linter
+- `pnpm format`: Format the code
+- `pnpm test`: Run tests
+- `pnpm check`: Run all checks (type checking, formatting and tests)
+
+## 📦 Setup
+
+```sh
 git clone https://github.com/BurakYs/fastify-example.git
-
-# 2. Go to the project directory:
 cd fastify-example
-
-# 3. Install dependencies:
-npm install
-
-# 4. Configure the environment variables:
+pnpm install
 cp .env.example .env
-
-# 5. Edit the configuration files under the `src/config` directory according to your needs.
-
-# 6. Run the project:
-npm run dev
 ```
 
 ## 📝 License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for more information.
+This project is licensed under the [MIT License](./LICENSE).
