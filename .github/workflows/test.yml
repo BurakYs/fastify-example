@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 jobs:
   test:
@@ -23,8 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Setup pnpm
-        run: |
-          npm install -g pnpm@latest-10
+        run: npm install -g pnpm@latest-10
 
       - name: Setup MongoDB
         uses: supercharge/mongodb-github-action@v1
