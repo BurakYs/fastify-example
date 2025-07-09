@@ -1,14 +1,24 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const srcRoot = path.resolve(process.cwd(), 'src');
-const extensions = ['.ts', '.js', '/index.ts', '/index.js'];
+const extensions = ['.ts', '/index.ts', ''];
 
-function resolvePath(basePath) {
+const srcPath = path.resolve(process.cwd(), 'src');
+const srcPrefix = '@/';
+
+const testsPath = path.resolve(process.cwd(), 'tests');
+const testsPrefix = '@/tests/';
+
+function resolvePath(specifier) {
+    const root = specifier.startsWith(testsPrefix) ? testsPath : srcPath;
+    const filePath = specifier.startsWith(testsPrefix) ? specifier.slice(testsPrefix.length) : specifier.slice(srcPrefix.length);
+
     for (const ext of extensions) {
-        const fullPath = path.resolve(srcRoot, basePath + ext);
+        const fullPath = path.resolve(root, filePath + ext);
         if (fs.existsSync(fullPath)) {
-            return `file://${fullPath}`;
+            if (!fs.statSync(fullPath).isDirectory()) {
+                return `file://${fullPath}`;
+            }
         }
     }
 
@@ -17,8 +27,7 @@ function resolvePath(basePath) {
 
 export function resolve(specifier, context, nextResolve) {
     if (specifier.startsWith('@/')) {
-        const path = specifier.slice(2);
-        const resolved = resolvePath(path);
+        const resolved = resolvePath(specifier);
 
         if (resolved) {
             return {

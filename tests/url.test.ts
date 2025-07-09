@@ -1,0 +1,85 @@
+import { describe, expect, it } from 'vitest';
+import fastify from '@/tests/fastify';
+
+describe('URL Routes', () => {
+    const location = 'https://example.com';
+    let createdSlug = '';
+
+    it('should shorten URL (POST /)', async () => {
+        const response = await fastify.inject({
+            method: 'POST',
+            url: '/url',
+            payload: { url: location }
+        });
+
+        expect(response.statusCode).toBe(201);
+
+        const json = response.json();
+        expect(json).toHaveProperty('url');
+        expect(json).toHaveProperty('slug');
+        expect(json.url).toContain(json.slug);
+
+        createdSlug = json.slug;
+    });
+
+    it('should return 400 when url is missing', async () => {
+        const res = await fastify.inject({
+            method: 'POST',
+            url: '/url',
+            payload: {}
+        });
+
+        expect(res.statusCode).toBe(400);
+
+        const json = res.json();
+        expect(json.validationFailures[0].path).toBe('url');
+    });
+
+    it('should redirect to original URL (GET /:slug)', async () => {
+        const response = await fastify.inject({
+            method: 'GET',
+            url: `/url/${createdSlug}`
+        });
+
+        expect(response.statusCode).toBe(301);
+        expect(response.headers.location).toBe(location);
+    });
+
+    it('should return 404 on GET with non-existing slug', async () => {
+        const response = await fastify.inject({
+            method: 'GET',
+            url: '/url/nonexistentslug'
+        });
+
+        expect(response.statusCode).toBe(404);
+    });
+
+    it('should return 401 on DELETE if IP is different', async () => {
+        const response = await fastify.inject({
+            method: 'DELETE',
+            url: `/url/${createdSlug}`,
+            remoteAddress: '1.1.1.1'
+        });
+
+        expect(response.statusCode).toBe(401);
+    });
+
+    it('should delete the URL with correct IP (DELETE /:slug)', async () => {
+        const response = await fastify.inject({
+            method: 'DELETE',
+            url: `/url/${createdSlug}`
+        });
+
+        expect(response.statusCode).toBe(204);
+    });
+
+    it('should return 404 on DELETE of deleted slug', async () => {
+        const response = await fastify.inject({
+            method: 'DELETE',
+            url: `/url/${createdSlug}`
+        });
+
+        expect(response.statusCode).toBe(404);
+        expect(response.json()).toEqual({ error: 'URL not found' });
+    });
+});

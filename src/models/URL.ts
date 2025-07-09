@@ -26,8 +26,7 @@ const URLSchema = new Schema(
         }
     },
     {
-        timestamps: true,
-        versionKey: false
+        timestamps: true
     }
 );
 

@@ -18,6 +18,7 @@ server
     .catch(async (err) => {
         global.logger.error(err);
         await server.fastify.close();
+        await mongoose.disconnect();
         process.exit(1);
     });
 

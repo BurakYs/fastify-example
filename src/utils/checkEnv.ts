@@ -1,7 +1,7 @@
 type EnvironmentKeys = (keyof NodeJS.ProcessEnv)[];
 
 export default function checkEnv() {
-    const requiredEnvVariables: EnvironmentKeys = ['BASE_URL', 'MONGO_URI'];
+    const requiredEnvVariables: EnvironmentKeys = ['BASE_URL', 'MONGODB_URI'];
     const missingEnvVariables = requiredEnvVariables.filter((env) => !process.env[env]);
 
     if (missingEnvVariables.length) {

@@ -1,0 +1,44 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 24 ]
+        mongodb-version: [ '8.0' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup pnpm
+        run: |
+          npm install -g pnpm@latest-10
+
+      - name: Setup MongoDB
+        uses: supercharge/mongodb-github-action@v1
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Run tests
+        run: pnpm test
+        env:
+          BASE_URL: https://api.example.com
+          MONGODB_URI: mongodb://localhost:27017

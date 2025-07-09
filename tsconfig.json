@@ -5,15 +5,15 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "target": "esnext",
-        "module": "nodenext",
+        "module": "esnext",
         "moduleResolution": "node",
         "outDir": "./dist",
-        "baseUrl": "./src",
-        "rootDir": "./src",
+        "baseUrl": ".",
         "types": ["node"],
         "typeRoots": ["node_modules/@types", "src/types"],
         "paths": {
-            "@/*": ["*"]
+            "@/*": ["src/*"],
+            "@/tests/*": ["tests/*"]
         }
     }
 }
