@@ -9,7 +9,6 @@
         "dev": "cross-env NODE_ENV=development node --loader ./custom-loader.js --no-warnings .",
         "dev:watch": "cross-env NODE_ENV=development nodemon",
         "start": "cross-env NODE_ENV=production node --loader ./custom-loader.js --no-warnings .",
-        "build": "tsc",
         "lint": "biome lint",
         "lint:fix": "biome check --write",
         "check": "tsc --noEmit && pnpm lint"
