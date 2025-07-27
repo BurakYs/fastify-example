@@ -2,9 +2,7 @@ import mongoose from 'mongoose';
 
 export default async function connectDatabase(url: string) {
     try {
-        await mongoose.connect(url, {
-            dbName: process.env.NODE_ENV === 'production' ? 'production' : 'development'
-        });
+        await mongoose.connect(url);
 
         if (process.env.NODE_ENV !== 'test') {
             global.logger.info('Connected to MongoDB');
