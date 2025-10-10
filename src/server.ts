@@ -55,7 +55,9 @@ export default class Server {
                 });
             }
 
-            if (error.statusCode === 429) return response.sendError(429, 'Too Many Requests');
+            if (error.statusCode === 429) {
+                return response.sendError(429, 'Too Many Requests');
+            }
 
             global.logger.error(error);
             response.sendError(500, 'Internal Server Error');

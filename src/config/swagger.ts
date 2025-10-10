@@ -5,7 +5,7 @@ import { jsonSchemaTransform } from 'fastify-type-provider-zod';
 
 export const swaggerConfig: SwaggerOptions = {
     openapi: {
-        openapi: '3.0.0',
+        openapi: '3.1.0',
         info: {
             title: 'Fastify API',
             version: '1.0.0',

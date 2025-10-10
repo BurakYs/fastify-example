@@ -5,6 +5,9 @@ export default createRouter(async (fastify) => {
     fastify.route({
         method: 'GET',
         url: '/',
+        schema: {
+            hide: true
+        },
         handler: async (_request, response) => {
             response.sendSuccess(200, 'Hello, world!');
         }
@@ -13,6 +16,9 @@ export default createRouter(async (fastify) => {
     fastify.route({
         method: 'GET',
         url: '/healthz',
+        schema: {
+            hide: true
+        },
         handler: async (_request, response) => {
             try {
                 // biome-ignore lint/style/noNonNullAssertion: If the connection isn't established this will throw
