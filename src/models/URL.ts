@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
-import { slugValidationFunction } from '@/utils/validations/url/slug';
-import { urlValidationFunction } from '@/utils/validations/url/url';
+import { slugValidationFunc } from '@/utils/validations/url/slug';
+import { urlValidationFunc } from '@/utils/validations/url/url';
 
 const URLSchema = new Schema(
     {
@@ -9,7 +9,7 @@ const URLSchema = new Schema(
             required: true,
             maxlength: 4096,
             validate: {
-                validator: urlValidationFunction
+                validator: urlValidationFunc
             }
         },
         slug: {
@@ -17,7 +17,7 @@ const URLSchema = new Schema(
             unique: true,
             required: true,
             validate: {
-                validator: slugValidationFunction
+                validator: slugValidationFunc
             }
         },
         createdBy: {
