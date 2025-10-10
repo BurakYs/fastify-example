@@ -1,4 +1,3 @@
-import appConfig from '@/config/app';
 import URL from '@/models/URL';
 import { urlCreate, urlDelete, urlRedirect } from '@/schemas/url';
 import createRouter from '@/utils/createRouter';
@@ -42,7 +41,7 @@ export default createRouter(async (fastify) => {
             });
 
             response.sendSuccess(201, {
-                url: `${appConfig.rootUrl}/url/${slug}`,
+                url: `${process.env.BASE_URL}/url/${slug}`,
                 slug
             });
         }

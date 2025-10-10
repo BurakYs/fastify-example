@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import type { SwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 import { jsonSchemaTransform } from 'fastify-type-provider-zod';
-import appConfig from '@/config/app';
 
 export const swaggerConfig: SwaggerOptions = {
     openapi: {
@@ -14,7 +13,7 @@ export const swaggerConfig: SwaggerOptions = {
         },
         servers: [
             {
-                url: appConfig.rootUrl
+                url: process.env.BASE_URL
             }
         ],
         tags: [{ name: 'URL', description: 'URL shortener endpoints' }]

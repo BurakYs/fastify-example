@@ -19,7 +19,7 @@ export default class Server {
         await this.registerRoutes(dirname);
 
         if (process.env.NODE_ENV !== 'test') {
-            const port = Number.parseInt(process.env.PORT || '3000');
+            const port = Number.parseInt(process.env.PORT || '3000', 10);
             await this.fastify.listen({ port });
             global.logger.info(`Server listening on http://localhost:${port}`);
         }

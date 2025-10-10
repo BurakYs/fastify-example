@@ -1,5 +1,5 @@
 {
-    "watch": ["src", ".env", ".env.production"],
+    "watch": ["src", ".env"],
     "ext": "ts",
     "exec": "pnpm dev"
 }

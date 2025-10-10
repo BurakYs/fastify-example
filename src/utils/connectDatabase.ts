@@ -8,7 +8,7 @@ export default async function connectDatabase(url: string) {
             global.logger.info('Connected to MongoDB');
         }
     } catch (error) {
-        global.logger.fatal('Failed to connect to MongoDB', error);
+        global.logger.fatal({ msg: 'Failed to connect to MongoDB', err: error });
         process.exit(1);
     }
 }
