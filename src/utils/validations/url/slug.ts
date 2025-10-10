@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 export function slugValidationFunc(slug: string) {
     const slugRegex = /^[a-zA-Z0-9]+$/;

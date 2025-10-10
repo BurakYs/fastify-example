@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 export function urlValidationFunc(url: string) {
     const urlRegex = /https:\/\/[a-z0-9-]+(.[a-z0-9-]+)+([/?].*)?$/;

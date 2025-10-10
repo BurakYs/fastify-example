@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 import slugValidation from '@/utils/validations/url/slug';
 import urlValidation from '@/utils/validations/url/url';
 
