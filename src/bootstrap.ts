@@ -8,5 +8,5 @@ dotenv.config({
     quiet: true
 });
 
-setupLogger();
+setupLogger(process.env.NODE_ENV === 'test' ? 'warn' : 'info');
 checkEnv();

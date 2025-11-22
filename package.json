@@ -9,7 +9,7 @@
         "start": "cross-env NODE_ENV=production node --loader ./custom-loader.js --no-warnings .",
         "dev": "cross-env NODE_ENV=development node --loader ./custom-loader.js --no-warnings .",
         "dev:watch": "cross-env NODE_ENV=development nodemon",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc",
         "lint": "biome lint",
         "format": "biome check --write",
         "test": "vitest run --reporter verbose",
@@ -17,24 +17,24 @@
     },
     "dependencies": {
         "@fastify/autoload": "^6.3.1",
+        "@fastify/error": "^4.2.0",
         "@fastify/rate-limit": "^10.3.0",
-        "@fastify/swagger": "^9.5.2",
+        "@fastify/swagger": "^9.6.1",
         "@fastify/swagger-ui": "^5.2.3",
         "dotenv": "^17.2.3",
-        "fastify": "^5.6.1",
+        "fastify": "^5.6.2",
         "fastify-plugin": "^5.1.0",
-        "fastify-type-provider-zod": "^6.0.0",
-        "mongoose": "^8.19.1",
-        "pino": "^10.0.0",
+        "fastify-type-provider-zod": "^6.1.0",
+        "mongoose": "^9.0.0",
+        "pino": "^10.1.0",
         "pino-pretty": "^13.1.2",
-        "vitest": "^3.2.4",
+        "vitest": "^4.0.13",
         "zod": "^4.1.12"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.5",
-        "@types/node": "^24.7.1",
+        "@biomejs/biome": "2.3.7",
+        "@types/node": "^24.10.1",
         "cross-env": "^10.1.0",
-        "nodemon": "^3.1.10",
-        "typescript": "^5.9.3"
+        "nodemon": "^3.1.11"
     }
 }

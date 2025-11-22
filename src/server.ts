@@ -1,17 +1,18 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fastifyAutoload from '@fastify/autoload';
+import { FastifyError } from '@fastify/error';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import Fastify from 'fastify';
 import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
+import mongoose from 'mongoose';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
-import connectDatabase from '@/utils/connectDatabase';
 
 export default class Server {
     public fastify = Fastify().withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
 
-    public async create() {
+    public async start() {
         const dirname = path.dirname(fileURLToPath(import.meta.url));
 
         await this.registerHooks();
@@ -24,7 +25,18 @@ export default class Server {
             global.logger.info(`Server listening on http://localhost:${port}`);
         }
 
-        await connectDatabase(process.env.MONGODB_URI);
+        try {
+            await mongoose.connect(process.env.MONGODB_URI);
+            global.logger.info('Connected to MongoDB');
+        } catch (error) {
+            global.logger.fatal({ msg: 'Failed to connect to MongoDB', error });
+            process.exit(1);
+        }
+    }
+
+    public async shutdown() {
+        await this.fastify.close();
+        await mongoose.disconnect();
     }
 
     private async registerHooks() {
@@ -36,14 +48,12 @@ export default class Server {
             return this.code(status).send(data);
         });
 
-        if (process.env.NODE_ENV !== 'test') {
-            this.fastify.addHook('onResponse', async (request, response) => {
-                const responseMs = response.elapsedTime.toFixed(2);
-                const responseSize = response.getHeader('Content-Length') ?? 0;
+        this.fastify.addHook('onResponse', async (request, response) => {
+            const responseMs = response.elapsedTime.toFixed(2);
+            const responseSize = response.getHeader('Content-Length') ?? 0;
 
-                global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
-            });
-        }
+            global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
+        });
 
         this.fastify.setErrorHandler((error, _request, response) => {
             if (hasZodFastifySchemaValidationErrors(error)) {
@@ -55,7 +65,7 @@ export default class Server {
                 });
             }
 
-            if (error.statusCode === 429) {
+            if (error instanceof FastifyError && error.statusCode === 429) {
                 return response.sendError(429, 'Too Many Requests');
             }
 

@@ -1,7 +1,8 @@
-import pino from 'pino';
+import pino, { type LevelWithSilent } from 'pino';
 
-export default function setupLogger() {
+export default function setupLogger(level?: LevelWithSilent) {
     global.logger = pino({
+        level,
         transport: {
             target: 'pino-pretty',
             options: {

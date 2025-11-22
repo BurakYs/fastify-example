@@ -9,11 +9,6 @@ export default defineConfig({
         }
     },
     test: {
-        poolOptions: {
-            pool: 'forks',
-            forks: {
-                execArgv: ['--loader', './custom-loader.js', '--no-warnings']
-            }
-        }
+        execArgv: ['--loader', './custom-loader.js', '--no-warnings']
     }
 });
