@@ -1,14 +1,12 @@
 export {};
 
-declare global {
-    namespace NodeJS {
-        interface ProcessEnv {
-            NODE_ENV: 'production' | 'development' | 'test';
+declare module 'bun' {
+    interface Env {
+        NODE_ENV: 'production' | 'development' | 'test';
 
-            PORT: string;
-            BASE_URL: string;
+        PORT: string;
+        BASE_URL: string;
 
-            MONGODB_URI: string;
-        }
+        MONGODB_URI: string;
     }
 }

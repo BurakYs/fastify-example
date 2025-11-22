@@ -8,30 +8,27 @@ A simple example for a REST API using Fastify, TypeScript, Zod, and Swagger.
 
 ### ⚙️ Features
 
-- Database: [MongoDB](https://www.mongodb.com) with [Mongoose](https://mongoosejs.com)
-- Validation: [Zod](https://zod.dev)
+- Database: [MongoDB](https://www.mongodb.com)
 - Logging: [Pino](https://getpino.io)
 - Linting & Formatting: Biome - [Biome](https://biomejs.dev)
 - API Documentation: [Swagger](https://swagger.io)
-- Testing: [Vitest](https://vitest.dev)
 
 ## 🛠️ Commands
 
-- `pnpm start`: Start the production server
-- `pnpm dev`: Start the development server
-- `pnpm dev:watch`: Start the development server with file watching
-- `pnpm typecheck`: Run type checking
-- `pnpm lint`: Run linter
-- `pnpm format`: Format the code
-- `pnpm test`: Run tests
-- `pnpm check`: Run all checks (type checking, formatting and tests)
+- `bun start`: Start the production server
+- `bun dev`: Start the development server
+- `bun typecheck`: Run type checking
+- `bun lint`: Run linter
+- `bun format`: Format the code
+- `bun test`: Run tests
+- `bun check`: Run all checks (type checking, formatting and tests)
 
 ## 📦 Setup
 
 ```sh
 git clone https://github.com/BurakYs/fastify-example.git
 cd fastify-example
-pnpm install
+bun install
 cp .env.example .env
 ```
 

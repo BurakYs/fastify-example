@@ -1,15 +1,15 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'bun:test';
 import fastify from '@/tests/fastify';
 
 describe('URL Routes', () => {
-    const location = 'https://example.com';
+    const longUrl = 'https://example.com';
     let createdSlug = '';
 
     it('should shorten URL', async () => {
         const response = await fastify.inject({
             method: 'POST',
             url: '/url',
-            payload: { url: location }
+            payload: { url: longUrl }
         });
 
         expect(response.statusCode).toBe(201);
@@ -42,7 +42,7 @@ describe('URL Routes', () => {
         });
 
         expect(response.statusCode).toBe(301);
-        expect(response.headers.location).toBe(location);
+        expect(response.headers.location).toBe(longUrl);
     });
 
     it('should return 404 on GET with non-existing slug', async () => {
@@ -80,6 +80,6 @@ describe('URL Routes', () => {
         });
 
         expect(response.statusCode).toBe(404);
-        expect(response.json()).toEqual({ error: 'URL not found' });
+        expect(response.json() as { error: string }).toEqual({ error: 'URL not found' });
     });
 });

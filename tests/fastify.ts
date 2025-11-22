@@ -1,5 +1,5 @@
 import '@/bootstrap';
-import { afterAll, beforeAll } from 'vitest';
+import { afterAll, beforeAll } from 'bun:test';
 import Server from '@/server';
 
 const server = new Server();
