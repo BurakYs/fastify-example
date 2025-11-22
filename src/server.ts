@@ -57,8 +57,7 @@ export default class Server {
 
     this.fastify.addHook('onResponse', async (request, response) => {
       const elapsed = response.elapsedTime.toFixed(2);
-      const status = response.statusCode;
-      global.logger.info(`${status} ${request.method} ${request.url} from ${request.ip} - ${elapsed}ms`);
+      global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${elapsed}ms`);
     });
 
     this.fastify.setErrorHandler((error, _request, response) => {

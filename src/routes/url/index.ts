@@ -1,7 +1,7 @@
+import { nanoid } from 'nanoid';
 import URL from '@/models/URL';
-import { urlCreateBody, urlDeleteParams, urlRedirectParams } from '@/schemas/url';
+import { createUrlBody, deleteUrlParams, getUrlParams } from '@/schemas/url';
 import createRouter from '@/utils/createRouter';
-import generateRandomString from '@/utils/generateRandomString';
 
 export default createRouter(async (fastify) => {
   fastify.route({
@@ -10,7 +10,7 @@ export default createRouter(async (fastify) => {
     schema: {
       summary: 'Redirect to the original URL',
       tags: ['URL'],
-      params: urlRedirectParams
+      params: getUrlParams
     },
     handler: async (request, response) => {
       const { params } = request;
@@ -28,11 +28,11 @@ export default createRouter(async (fastify) => {
     schema: {
       summary: 'Shorten a URL',
       tags: ['URL'],
-      body: urlCreateBody
+      body: createUrlBody
     },
     handler: async (request, response) => {
       const { body } = request;
-      const slug = generateRandomString();
+      const slug = nanoid(8);
 
       await URL.create({
         url: body.url,
@@ -53,7 +53,7 @@ export default createRouter(async (fastify) => {
     schema: {
       summary: 'Delete a short URL',
       tags: ['URL'],
-      params: urlDeleteParams
+      params: deleteUrlParams
     },
     handler: async (request, response) => {
       const { params } = request;

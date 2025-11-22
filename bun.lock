@@ -7,12 +7,14 @@
         "@fastify/autoload": "^6.3.1",
         "@fastify/error": "^4.2.0",
         "@fastify/rate-limit": "^10.3.0",
+        "@fastify/static": "^8.3.0",
         "@fastify/swagger": "^9.6.1",
         "@fastify/swagger-ui": "^5.2.3",
         "fastify": "^5.6.2",
         "fastify-plugin": "^5.1.0",
         "fastify-type-provider-zod": "^6.1.0",
         "mongoose": "^9.0.0",
+        "nanoid": "^5.1.6",
         "pino": "^10.1.0",
         "pino-pretty": "^13.1.2",
         "zod": "^4.1.12",
@@ -212,6 +214,8 @@
     "mquery": ["mquery@6.0.0", "", {}, "sha512-b2KQNsmgtkscfeDgkYMcWGn9vZI9YoXh802VDEwE6qc50zxBFQ0Oo8ROkawbPAsXCY1/Z1yp0MagqsZStPWJjw=="],
 
     "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
+
+    "nanoid": ["nanoid@5.1.6", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg=="],
 
     "on-exit-leak-free": ["on-exit-leak-free@2.1.2", "", {}, "sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA=="],
 
