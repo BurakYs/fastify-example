@@ -1,5 +1,4 @@
 import '@/bootstrap';
-import mongoose from 'mongoose';
 import Server from '@/server';
 
 const server = new Server();
@@ -10,15 +9,14 @@ server
 
     for (const signal of terminationSignals) {
       process.on(signal, async () => {
-        await server.fastify.close();
-        await mongoose.disconnect();
+        await server.shutdown();
+        process.exit(0);
       });
     }
   })
   .catch(async (err) => {
     global.logger.error(err);
-    await server.fastify.close();
-    await mongoose.disconnect();
+    await server.shutdown();
     process.exit(1);
   });
 
