@@ -7,7 +7,6 @@ const fastify = server.fastify;
 
 beforeAll(async () => {
   await server.start();
-  await fastify.ready();
 });
 
 afterAll(async () => {

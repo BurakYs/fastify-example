@@ -1,4 +1,4 @@
-type EnvironmentKeys = (keyof NodeJS.ProcessEnv)[];
+type EnvironmentKeys = (keyof Bun.Env)[];
 
 export default function checkEnv() {
   const requiredEnvVariables: EnvironmentKeys = ['BASE_URL', 'MONGODB_URI'];

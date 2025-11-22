@@ -1,5 +1,4 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import fastifyAutoload from '@fastify/autoload';
 import { FastifyError } from '@fastify/error';
 import fastifySwagger from '@fastify/swagger';
@@ -21,11 +20,11 @@ export default class Server {
     .setSerializerCompiler(serializerCompiler);
 
   public async start() {
-    const dirname = path.dirname(fileURLToPath(import.meta.url));
+    this.registerHooks();
+    this.registerPlugins();
+    this.registerRoutes();
 
-    await this.registerHooks();
-    await this.registerPlugins(dirname);
-    await this.registerRoutes(dirname);
+    await this.fastify.ready();
 
     if (process.env.NODE_ENV !== 'test') {
       const port = Number.parseInt(process.env.PORT || '3000', 10);
@@ -47,7 +46,7 @@ export default class Server {
     await mongoose.disconnect();
   }
 
-  private async registerHooks() {
+  private registerHooks() {
     this.fastify.decorateReply('sendError', function (status, message, otherProperties) {
       return this.code(status).send({ error: message, ...otherProperties });
     });
@@ -85,18 +84,18 @@ export default class Server {
     });
   }
 
-  private async registerPlugins(dirname: string) {
-    await this.fastify.register(fastifyAutoload, {
-      dir: path.join(dirname, 'plugins')
+  private registerPlugins() {
+    this.fastify.register(fastifyAutoload, {
+      dir: path.join(__dirname, 'plugins')
     });
   }
 
-  private async registerRoutes(dirname: string) {
+  private registerRoutes() {
     this.fastify.register(fastifySwagger, swaggerConfig);
     this.fastify.register(fastifySwaggerUi, swaggerUIConfig);
 
     this.fastify.register(fastifyAutoload, {
-      dir: path.join(dirname, 'routes')
+      dir: path.join(__dirname, 'routes')
     });
   }
 }
