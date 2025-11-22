@@ -5,91 +5,98 @@ import { FastifyError } from '@fastify/error';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import Fastify from 'fastify';
-import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
+import {
+  hasZodFastifySchemaValidationErrors,
+  serializerCompiler,
+  validatorCompiler,
+  type ZodTypeProvider
+} from 'fastify-type-provider-zod';
 import mongoose from 'mongoose';
 import { swaggerConfig, swaggerUIConfig } from '@/config/swagger';
 
 export default class Server {
-    public fastify = Fastify().withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler).setSerializerCompiler(serializerCompiler);
+  public fastify = Fastify()
+    .withTypeProvider<ZodTypeProvider>()
+    .setValidatorCompiler(validatorCompiler)
+    .setSerializerCompiler(serializerCompiler);
 
-    public async start() {
-        const dirname = path.dirname(fileURLToPath(import.meta.url));
+  public async start() {
+    const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-        await this.registerHooks();
-        await this.registerPlugins(dirname);
-        await this.registerRoutes(dirname);
+    await this.registerHooks();
+    await this.registerPlugins(dirname);
+    await this.registerRoutes(dirname);
 
-        if (process.env.NODE_ENV !== 'test') {
-            const port = Number.parseInt(process.env.PORT || '3000', 10);
-            await this.fastify.listen({ port });
-            global.logger.info(`Server listening on http://localhost:${port}`);
-        }
-
-        try {
-            await mongoose.connect(process.env.MONGODB_URI);
-            global.logger.info('Connected to MongoDB');
-        } catch (error) {
-            global.logger.fatal({ msg: 'Failed to connect to MongoDB', error });
-            process.exit(1);
-        }
+    if (process.env.NODE_ENV !== 'test') {
+      const port = Number.parseInt(process.env.PORT || '3000', 10);
+      await this.fastify.listen({ port });
+      global.logger.info(`Server listening on http://localhost:${port}`);
     }
 
-    public async shutdown() {
-        await this.fastify.close();
-        await mongoose.disconnect();
+    try {
+      await mongoose.connect(process.env.MONGODB_URI);
+      global.logger.info('Connected to MongoDB');
+    } catch (error) {
+      global.logger.fatal({ msg: 'Failed to connect to MongoDB', error });
+      process.exit(1);
     }
+  }
 
-    private async registerHooks() {
-        this.fastify.decorateReply('sendError', function (status, message, otherProperties) {
-            return this.code(status).send({ error: message, ...otherProperties });
+  public async shutdown() {
+    await this.fastify.close();
+    await mongoose.disconnect();
+  }
+
+  private async registerHooks() {
+    this.fastify.decorateReply('sendError', function (status, message, otherProperties) {
+      return this.code(status).send({ error: message, ...otherProperties });
+    });
+
+    this.fastify.decorateReply('sendSuccess', function (status, data) {
+      return this.code(status).send(data);
+    });
+
+    this.fastify.addHook('onResponse', async (request, response) => {
+      const elapsed = response.elapsedTime.toFixed(2);
+      const status = response.statusCode;
+      global.logger.info(`${status} ${request.method} ${request.url} from ${request.ip} - ${elapsed}ms`);
+    });
+
+    this.fastify.setErrorHandler((error, _request, response) => {
+      if (hasZodFastifySchemaValidationErrors(error)) {
+        return response.sendError(400, 'Invalid Parameters', {
+          validationFailures: error.validation?.map((x) => ({
+            path: x.instancePath.substring(1).replaceAll('/', '.'),
+            message: x.message
+          }))
         });
+      }
 
-        this.fastify.decorateReply('sendSuccess', function (status, data) {
-            return this.code(status).send(data);
-        });
+      if (error instanceof FastifyError && error.statusCode === 429) {
+        return response.sendError(429, 'Too Many Requests');
+      }
 
-        this.fastify.addHook('onResponse', async (request, response) => {
-            const responseMs = response.elapsedTime.toFixed(2);
-            const responseSize = response.getHeader('Content-Length') ?? 0;
+      global.logger.error(error);
+      response.sendError(500, 'Internal Server Error');
+    });
 
-            global.logger.info(`${response.statusCode} ${request.method} ${request.url} from ${request.ip} - ${responseSize} bytes in ${responseMs}ms`);
-        });
+    this.fastify.setNotFoundHandler((_request, response) => {
+      response.sendError(404, 'Not Found');
+    });
+  }
 
-        this.fastify.setErrorHandler((error, _request, response) => {
-            if (hasZodFastifySchemaValidationErrors(error)) {
-                return response.sendError(400, 'Invalid Parameters', {
-                    validationFailures: error.validation?.map((x) => ({
-                        path: x.instancePath.substring(1).replaceAll('/', '.'),
-                        message: x.message
-                    }))
-                });
-            }
+  private async registerPlugins(dirname: string) {
+    await this.fastify.register(fastifyAutoload, {
+      dir: path.join(dirname, 'plugins')
+    });
+  }
 
-            if (error instanceof FastifyError && error.statusCode === 429) {
-                return response.sendError(429, 'Too Many Requests');
-            }
+  private async registerRoutes(dirname: string) {
+    this.fastify.register(fastifySwagger, swaggerConfig);
+    this.fastify.register(fastifySwaggerUi, swaggerUIConfig);
 
-            global.logger.error(error);
-            response.sendError(500, 'Internal Server Error');
-        });
-
-        this.fastify.setNotFoundHandler((_request, response) => {
-            response.sendError(404, 'Not Found');
-        });
-    }
-
-    private async registerPlugins(dirname: string) {
-        await this.fastify.register(fastifyAutoload, {
-            dir: path.join(dirname, 'plugins')
-        });
-    }
-
-    private async registerRoutes(dirname: string) {
-        this.fastify.register(fastifySwagger, swaggerConfig);
-        this.fastify.register(fastifySwaggerUi, swaggerUIConfig);
-
-        this.fastify.register(fastifyAutoload, {
-            dir: path.join(dirname, 'routes')
-        });
-    }
+    this.fastify.register(fastifyAutoload, {
+      dir: path.join(dirname, 'routes')
+    });
+  }
 }

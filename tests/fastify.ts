@@ -6,12 +6,12 @@ const server = new Server();
 const fastify = server.fastify;
 
 beforeAll(async () => {
-    await server.start();
-    await fastify.ready();
+  await server.start();
+  await fastify.ready();
 });
 
 afterAll(async () => {
-    await server.shutdown();
+  await server.shutdown();
 });
 
 export default fastify;

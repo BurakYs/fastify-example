@@ -1,33 +1,33 @@
 {
-    "name": "fastify-example",
-    "main": "src/index.ts",
-    "type": "module",
-    "private": true,
-    "scripts": {
-        "start": "bun --env-file=.env.production run .",
-        "dev": "bun --env-file=.env run .",
-        "typecheck": "tsc",
-        "lint": "biome lint",
-        "format": "biome check --write",
-        "check": "bun typecheck && bun format && bun test"
-    },
-    "dependencies": {
-        "@fastify/autoload": "^6.3.1",
-        "@fastify/error": "^4.2.0",
-        "@fastify/rate-limit": "^10.3.0",
-        "@fastify/swagger": "^9.6.1",
-        "@fastify/swagger-ui": "^5.2.3",
-        "fastify": "^5.6.2",
-        "fastify-plugin": "^5.1.0",
-        "fastify-type-provider-zod": "^6.1.0",
-        "mongoose": "^9.0.0",
-        "pino": "^10.1.0",
-        "pino-pretty": "^13.1.2",
-        "zod": "^4.1.12"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "2.3.7",
-        "@types/bun": "^1.3.3",
-        "typescript": "^5"
-    }
+  "name": "fastify-example",
+  "main": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun --env-file=.env.production run .",
+    "dev": "bun --env-file=.env run .",
+    "typecheck": "tsc",
+    "lint": "biome lint",
+    "format": "biome check --write",
+    "check": "bun typecheck && bun lint && bun test"
+  },
+  "dependencies": {
+    "@fastify/autoload": "^6.3.1",
+    "@fastify/error": "^4.2.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "fastify": "^5.6.2",
+    "fastify-plugin": "^5.1.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "mongoose": "^9.0.0",
+    "pino": "^10.1.0",
+    "pino-pretty": "^13.1.2",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.7",
+    "@types/bun": "^1.3.3",
+    "typescript": "^5"
+  }
 }
